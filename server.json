@@ -1,0 +1,49 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.getmcpads/x-ads",
+  "title": "X Ads",
+  "description": "X Ads MCP server: 25 read tools, 19 opt-in preview-first writes.",
+  "version": "1.0.0",
+  "websiteUrl": "https://www.getmcpads.com/tools/x-ads",
+  "repository": {
+    "url": "https://github.com/getmcpads-com/x-ads-mcp-server",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@getmcpads/x-ads-mcp-server",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "X_ADS_ACCESS_TOKEN",
+          "description": "User OAuth 2.0 token. Keep it secret.",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "X_ADS_ACCOUNT_IDS",
+          "description": "Comma-separated allowed account IDs. Required even for reads.",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "X_ADS_SCOPES",
+          "description": "Scopes actually granted to the token, including ads.read.",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "X_ADS_ENABLE_WRITES",
+          "description": "true enables write tools. Defaults to false.",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
