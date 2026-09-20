@@ -1,27 +1,60 @@
-# x-ads-mcp-server
+<div align="center">
 
+# X Ads MCP server
 
+### Bring your X Ads accounts into your MCP client.
 
-A local stdio MCP server maintained by Emmanuel at [getmcpads](https://www.getmcpads.com).
-It exposes the reviewed X Ads tools used by getmcpads, with explicit account selection and opt-in writes.
-Requests go directly to X's official Ads MCP endpoint and X's media API. No getmcpads gateway is involved.
+Read campaigns and performance, inspect targeting and prepare changes for explicitly selected accounts.
 
+[![Release](https://img.shields.io/github/v/release/getmcpads-com/x-ads-mcp-server?color=2448e5)](https://github.com/getmcpads-com/x-ads-mcp-server/releases/latest)
+[![CI](https://github.com/getmcpads-com/x-ads-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/getmcpads-com/x-ads-mcp-server/actions/workflows/ci.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A522.12-brightgreen.svg)](package.json)
 
-## Current source release
+[Watch the demo](https://www.getmcpads.com/home/film/get-mcp-ads-film-1080p.mp4) · [What's new](#whats-new) · [Install](#install-this-release) · [Tool reference](#tools) · [Try hosted getmcpads](https://www.getmcpads.com/tools/x-ads?utm_source=github&utm_medium=readme&utm_campaign=x-ads)
 
-Version 1.0.0 requires **Node.js 22.12 or newer**. CI checks Node 22 and 24.
-This source catalog contains **25 read tools** and **19 write tools**.
-Native API tools are included. Hosted creative galleries, visual editors, Launcher storage and MCP Apps UI are excluded.
-Source commits, npm releases and MCP Registry publication are separate steps. Until this version is published, use the source installation below to run this exact revision.
+[![Watch the getmcpads product demo: campaign review in Claude](https://www.getmcpads.com/home/film/poster-rich.webp)](https://www.getmcpads.com/home/film/get-mcp-ads-film-1080p.mp4)
+
+**[Play the 27-second product film](https://www.getmcpads.com/home/film/get-mcp-ads-film-1080p.mp4)**
+
+</div>
+
+The film demonstrates hosted getmcpads with staged data. Its creative galleries and MCP Apps interface belong to the hosted product. This repository provides the standalone native API tools.
+
+**25 read tools** · **19 write tools**, disabled by default.
+
+Run locally with your own platform credentials and a client that supports stdio MCP, such as Claude Desktop, Claude Code or Cursor. Your requests go directly to the platform. For managed connections, including supported ChatGPT setups, use the hosted option.
+
+## What's new
+
+**[v1.0.0: First standalone release](https://github.com/getmcpads-com/x-ads-mcp-server/releases/tag/v1.0.0) · September 20, 2026**
+
+- Create the first runnable standalone server using the reviewed native tool subset.
+- Require explicit account IDs, default to read-only, preview writes and preserve native pagination.
+- Use fixed X endpoints, bounded responses, timeouts and credential redaction without automatic write retries.
+- Require Node.js 22.12 or newer and check Node 22/24 in CI.
+- Update vulnerable dependencies and regenerate the MCP catalog.
+
+[Full changelog](CHANGELOG.md) · [Source synchronization details](SOURCE_SYNC.md) · [All releases](https://github.com/getmcpads-com/x-ads-mcp-server/releases)
+
+### Upgrade notes
+
+Requires **Node.js 22.12 or newer**. CI covers Node 22 and 24. Read the current tool schemas before reusing saved arguments. Writes remain optional and require explicit confirmation. Hosted creative integrations and MCP Apps UI are outside this release.
+
+## Install this release
+
+This is a GitHub source release. npm and MCP Registry versions are published separately. The commands below select this exact version; unpinned `npx` examples later in this document select the version currently available on npm.
 
 ```bash
-git clone https://github.com/getmcpads-com/x-ads-mcp-server.git
+git clone --branch v1.0.0 --depth 1 https://github.com/getmcpads-com/x-ads-mcp-server.git
 cd x-ads-mcp-server
 npm ci
 npm run build
 ```
 
-Configure your MCP client to run `node` with the absolute path to `dist/cli.js` and the environment variables documented below.
+Configure your MCP client to run `node` with the absolute path to `dist/cli.js` and the platform credentials documented below.
+
+> **Prefer a managed connection?** [Use X Ads with hosted getmcpads](https://www.getmcpads.com/tools/x-ads?utm_source=github&utm_medium=readme&utm_campaign=x-ads). Connect your account, select the data your assistant may access and use the hosted MCP connection. See the site for current features and plans.
 
 ## Configuration
 
@@ -67,35 +100,50 @@ npm run catalog
 
 All tests run offline with synthetic responses. No live account is changed.
 
-## Additional native tools
+## Tools
+
+Every tool is listed below. See [server-card.json](server-card.json) for complete parameter and output schemas.
+
+<details>
+<summary><b>25 read tools</b></summary>
 
 | Tool | Purpose |
-|---|---|
-| `x_ads_list_ads_accounts` | List the ads accounts the authenticated user can access Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_campaigns` | List campaigns for an account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_campaign` | Get a single campaign by ID Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_funding_instruments` | List funding instruments (payment sources) for an ads account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_line_items` | List line items (ad groups) for an ads account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_line_item` | Get a single line item by ID Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_promoted_posts` | List promoted posts (promoted tweets) for an ads account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_targeting_criteria` | List targeting criteria for an ads account's line items Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_account_posts` | List posts (tweets) usable for promotion by an ads account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_web_event_tags` | List the website conversion event tags (pixels) in an ads account; a tag's id is what a conversion line item takes as its primary_web_event_tag Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_line_item_placements` | List valid placement combinations per line item product type Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_account_stats` | Get synchronous analytics (impressions, engagements, spend) for an ads account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_active_entities` | List which ads entities had metrics change in a time window (use before requesting account stats) Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_campaign_reach` | Get reach and average-frequency metrics for campaigns Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
+| --- | --- |
+| `x_ads_list_ads_accounts` | List the ads accounts the authenticated user can access |
+| `x_ads_list_campaigns` | List campaigns for an account |
+| `x_ads_get_campaign` | Get a single campaign by ID |
+| `x_ads_list_funding_instruments` | List funding instruments (payment sources) for an ads account |
+| `x_ads_list_line_items` | List line items (ad groups) for an ads account |
+| `x_ads_get_line_item` | Get a single line item by ID |
+| `x_ads_list_promoted_posts` | List promoted posts (promoted tweets) for an ads account |
+| `x_ads_list_targeting_criteria` | List targeting criteria for an ads account's line items |
+| `x_ads_list_account_posts` | List posts (tweets) usable for promotion by an ads account |
+| `x_ads_list_web_event_tags` | List the website conversion event tags (pixels) in an ads account; a tag's id is what a conversion line item takes as its primary_web_event_tag |
+| `x_ads_list_line_item_placements` | List valid placement combinations per line item product type |
+| `x_ads_get_account_stats` | Get synchronous analytics (impressions, engagements, spend) for an ads account |
+| `x_ads_get_active_entities` | List which ads entities had metrics change in a time window (use before requesting account stats) |
+| `x_ads_get_campaign_reach` | Get reach and average-frequency metrics for campaigns |
 | `x_ads_search_targeting_interests` | Search targetable interest categories by name. |
 | `x_ads_search_targeting_locations` | Search targetable locations by name. |
-| `x_ads_list_cards` | List the cards in an ads account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_card` | Get a single card by ID Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_media_library` | List the media library objects in an ads account Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_media_library_item` | Get a single media library object by media key Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_promoted_post` | Get a single promoted post by ID Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_targeting_criterion` | Get a single targeting criterion by ID Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_list_post_previews` | Get rendered HTML previews for published or scheduled posts Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
-| `x_ads_get_web_event_tag` | Get a single website conversion event tag by ID Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency.. |
+| `x_ads_list_cards` | List the cards in an ads account |
+| `x_ads_get_card` | Get a single card by ID |
+| `x_ads_list_media_library` | List the media library objects in an ads account |
+| `x_ads_get_media_library_item` | Get a single media library object by media key |
+| `x_ads_get_promoted_post` | Get a single promoted post by ID |
+| `x_ads_get_targeting_criterion` | Get a single targeting criterion by ID |
+| `x_ads_list_post_previews` | Get rendered HTML previews for published or scheduled posts |
+| `x_ads_get_web_event_tag` | Get a single website conversion event tag by ID |
 | `x_ads_get_media_upload_status` | Read processing status of an upload owned by the connected X user. |
+
+</details>
+
+<details>
+<summary><b>19 write tools</b></summary>
+
+Disabled by default. Calls preview unless explicitly confirmed. Check the configuration and exact schema before use.
+
+| Tool | Purpose |
+| --- | --- |
 | `x_ads_create_campaign` | Create a campaign in an ads account. |
 | `x_ads_update_campaign` | Rename a campaign or pause it (entity_status=PAUSED). |
 | `x_ads_activate_campaign` | Activate a campaign (set entity_status=ACTIVE). |
@@ -110,8 +158,20 @@ All tests run offline with synthetic responses. No live account is changed.
 | `x_ads_delete_card` | Delete a card from an ads account. |
 | `x_ads_create_media_library_item` | Register an existing media key as a named item in the account's media library. |
 | `x_ads_delete_media_library_item` | Delete a media library object from an ads account Preview by default. |
-| `x_ads_update_media_library_item` | Update a media library object's metadata (e.g. |
+| `x_ads_update_media_library_item` | Update a media library object's metadata (e.g. name, title, description) Preview by default. |
 | `x_ads_create_web_event_tag` | Create a website conversion event tag (pixel); the returned id can be set as a line item's primary_web_event_tag Preview by default. |
 | `x_ads_delete_web_event_tag` | Delete a website conversion event tag Preview by default. |
 | `x_ads_update_web_event_tag` | Update a website conversion event tag Preview by default. |
 | `x_ads_upload_media` | Upload an image, GIF or MP4 clip to X. |
+
+</details>
+
+## License
+
+[Apache License 2.0](LICENSE). See [NOTICE](NOTICE).
+
+## More from getmcpads
+
+[Meta Ads](https://github.com/getmcpads-com/meta-ads-mcp-server) · [Google Ads](https://github.com/getmcpads-com/google-ads-mcp-server) · [Google Analytics 4](https://github.com/getmcpads-com/google-analytics-mcp-server) · [Google Search Console](https://github.com/getmcpads-com/google-search-console-mcp-server) · [TikTok Ads](https://github.com/getmcpads-com/tiktok-ads-mcp-server) · [Pinterest Ads](https://github.com/getmcpads-com/pinterest-ads-mcp-server)
+
+Maintained by **Emmanuel** at [getmcpads](https://www.getmcpads.com). Questions: [hello@getmcpads.com](mailto:hello@getmcpads.com).
