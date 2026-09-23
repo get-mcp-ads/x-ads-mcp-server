@@ -1,6 +1,6 @@
 {
   "name": "@getmcpads/x-ads-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "mcpName": "com.getmcpads/x-ads",
   "description": "X Ads MCP server: 25 read tools, 19 opt-in preview-first writes.",
   "license": "Apache-2.0",
@@ -63,11 +63,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/getmcpads-com/x-ads-mcp-server.git"
+    "url": "git+https://github.com/get-mcp-ads/x-ads-mcp-server.git"
   },
   "homepage": "https://www.getmcpads.com/tools/x-ads",
   "bugs": {
-    "url": "https://github.com/getmcpads-com/x-ads-mcp-server/issues"
+    "url": "https://github.com/get-mcp-ads/x-ads-mcp-server/issues"
   },
   "author": "Emmanuel, getmcpads (https://www.getmcpads.com)",
   "publishConfig": {

@@ -2,7 +2,7 @@
   "serverInfo": {
     "name": "@getmcpads/x-ads-mcp-server",
     "title": "X Ads MCP server: 25 read tools, 19 opt-in preview-first writes.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "websiteUrl": "https://www.getmcpads.com/tools/x-ads",
     "icons": [
       {

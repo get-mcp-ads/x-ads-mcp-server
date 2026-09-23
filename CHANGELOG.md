@@ -1,4 +1,11 @@
 # Changelog
+
+## 1.0.1 - 2026-09-23
+
+- Restore public source hosting under the get-mcp-ads GitHub organization.
+- Update repository and support links while preserving npm package and MCP registry names.
+- No changes to platform tools or credential requirements.
+
 ## 1.0.0 - 2026-09-20
 
 - Create the first runnable standalone server using the reviewed native tool subset.
