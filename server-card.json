@@ -1,8 +1,8 @@
 {
   "serverInfo": {
     "name": "@getmcpads/x-ads-mcp-server",
-    "title": "X Ads MCP server: 25 read tools, 19 opt-in preview-first writes.",
-    "version": "1.0.1",
+    "title": "X Ads MCP server: 25 read tools, 21 opt-in preview-first writes.",
+    "version": "1.1.0",
     "websiteUrl": "https://www.getmcpads.com/tools/x-ads",
     "icons": [
       {
@@ -4256,6 +4256,176 @@
           "account_id",
           "media_base64",
           "media_type"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": true
+              },
+              {
+                "type": "array",
+                "items": {}
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Original tool result: parsed JSON when the text is JSON, otherwise the text or multiple MCP content blocks. Provider fields depend on the selected query."
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "x_ads_rename_campaign",
+      "title": "x ads rename campaign",
+      "description": "Rename an X Ads campaign. The name is the only thing that changes: status, budget, schedule and targeting are untouched. Preview by default. Ask the user to approve the exact account, target and new name before confirm:true.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 64,
+            "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
+          },
+          "campaign_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 64,
+            "description": "Campaign ID belonging to the selected X Ads account."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "description": "New name, 1 to 255 characters. This is the only thing the call changes."
+          },
+          "confirm": {
+            "type": "boolean",
+            "default": false,
+            "description": "False previews only; true applies this exact rename after explicit human confirmation."
+          }
+        },
+        "required": [
+          "account_id",
+          "campaign_id",
+          "name"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": true
+              },
+              {
+                "type": "array",
+                "items": {}
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Original tool result: parsed JSON when the text is JSON, otherwise the text or multiple MCP content blocks. Provider fields depend on the selected query."
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "x_ads_rename_line_item",
+      "title": "x ads rename line item",
+      "description": "Rename an X Ads line item (ad group). The name is the only thing that changes: status, budget, schedule and targeting are untouched. Preview by default. Ask the user to approve the exact account, target and new name before confirm:true.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 64,
+            "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
+          },
+          "line_item_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 64,
+            "description": "Line item (ad group) ID belonging to the selected X Ads account."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "description": "New name, 1 to 255 characters. This is the only thing the call changes."
+          },
+          "confirm": {
+            "type": "boolean",
+            "default": false,
+            "description": "False previews only; true applies this exact rename after explicit human confirmation."
+          }
+        },
+        "required": [
+          "account_id",
+          "line_item_id",
+          "name"
         ],
         "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"

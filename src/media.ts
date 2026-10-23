@@ -2,6 +2,7 @@ import { webcrypto } from "node:crypto";
 import { z } from "zod";
 import type { ToolShape } from "./tool-quality.js";
 import type { XAdsConfig } from "./tools.js";
+import { X_MEDIA_UPLOAD_URL } from "./hosts.js";
 
 type Collector = { tool(name: string, description: string, shape: ToolShape, handler: (args: Record<string, unknown>) => Promise<unknown>): void };
 const ok = (data: unknown, isError = false) => ({ content: [{ type: "text", text: JSON.stringify(data) }], ...(isError ? { isError: true } : {}) });
@@ -15,7 +16,7 @@ function access(config: XAdsConfig, id: string) {
 async function request(token: string, path: string, body?: unknown): Promise<Record<string, any>> {
   let response: Response;
   try {
-    response = await fetch(`https://api.x.com/2/media/upload${path}`, {
+    response = await fetch(`${X_MEDIA_UPLOAD_URL}${path}`, {
       method: body === undefined ? "GET" : "POST", redirect: "manual", signal: AbortSignal.timeout(25_000),
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),

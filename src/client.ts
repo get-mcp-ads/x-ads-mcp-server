@@ -1,5 +1,6 @@
+import { X_ADS_MCP_URL } from "./hosts.js";
 /** Fixed official MCP endpoint. No user-supplied hosts, tokens in URLs, or automatic write retries. */
-export const X_ADS_MCP_URL = "https://ads-api.x.com/mcp";
+export { X_ADS_MCP_URL };
 export type XAdsResult = { content: { type: "text"; text: string }[]; isError?: boolean };
 export type XAdsAccount = { id: string; name?: string; currency?: string; timezone?: string };
 export class XAdsError extends Error {
