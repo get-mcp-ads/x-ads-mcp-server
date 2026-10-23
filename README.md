@@ -47,7 +47,7 @@ Read the current tool schemas before reusing saved arguments. Writes remain opti
 
 ## Install this release
 
-This is a GitHub source release. npm and MCP Registry versions are published separately. The commands below select this exact version; unpinned `npx` examples later in this document select the version currently available on npm.
+This is a GitHub source release. npm and MCP Registry versions are published separately. The commands below select this exact version.
 
 ```bash
 git clone --branch v1.1.0 --depth 1 https://github.com/get-mcp-ads/x-ads-mcp-server.git
