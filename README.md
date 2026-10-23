@@ -28,14 +28,26 @@ Run locally with your own platform credentials and a client that supports stdio 
 
 ## What's new
 
+<!-- release-history:start -->
 **[v1.1.0: Campaign and line item rename](https://github.com/get-mcp-ads/x-ads-mcp-server/releases/tag/v1.1.0) · October 23, 2026**
 
-- Add `x_ads_rename_campaign` and `x_ads_rename_line_item`. Each sends only the new name to X's own update tool, so status, budget, schedule and targeting stay as they are. Both preview by default.
-- Update `@modelcontextprotocol/sdk` to 1.32.1. Require a Node.js release with the October 2026 security fixes, and warn on stderr when an older one runs the server.
-- Declare both X endpoints in `src/hosts.ts`. Tests fail on a fetch without redirect handling or a timeout, and on any other host in the source.
-- Publish each version from its tag: npm with provenance, the GitHub release, then the MCP Registry.
+- Add `x_ads_rename_campaign` and `x_ads_rename_line_item`. Each previews by default, checks the account allowlist and the `ads.write` scope, then sends only `account_id`, the entity ID and `name` to X's `update_campaign` or `update_line_item`.
+- Declare both X endpoints in `src/hosts.ts`. New tests fail on a fetch without redirect handling or a timeout, and on any other host in `src/`.
+- Add `test/readme-accuracy.test.mjs`: every tool and the `x-ads://guide` resource are cited in the README, nothing else is, the counts match the code, and published prose has no em dash.
+- Update `@modelcontextprotocol/sdk` to 1.32.1 and regenerate `package-lock.json`. Require Node.js 22.23.4, 24.22.1, 26.12.1 or newer, and warn on stderr at startup on an older release. CI covers Node 22, 24 and 26.
+- Publish from a version tag with the new `release.yml`: npm with provenance, the GitHub release, then the MCP Registry. Dependabot now proposes weekly npm and monthly GitHub Actions updates.
 
-[Full changelog](CHANGELOG.md) · [Source synchronization details](SOURCE_SYNC.md) · [All releases](https://github.com/get-mcp-ads/x-ads-mcp-server/releases)
+**Earlier releases**
+
+| Version | Date | Highlights |
+| --- | --- | --- |
+| 1.0.1 | September 23, 2026 | Public repository restored |
+| 1.0.0 | September 20, 2026 | First standalone release |
+
+[Full changelog](CHANGELOG.md) · [All releases](https://github.com/get-mcp-ads/x-ads-mcp-server/releases)
+<!-- release-history:end -->
+
+Source synchronization: [SOURCE_SYNC.md](SOURCE_SYNC.md).
 
 ### Upgrade notes
 
