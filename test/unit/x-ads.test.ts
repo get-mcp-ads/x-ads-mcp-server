@@ -60,3 +60,60 @@ describe("X Ads official MCP adapter", () => {
     await expect(new XAdsClient(config.accessToken).call("list_campaigns", {})).rejects.not.toThrow(config.accessToken);
   });
 });
+describe("X Ads rename tools", () => {
+  const levels = [["campaign", "campaign_id", "update_campaign"], ["line_item", "line_item_id", "update_line_item"]] as const;
+  for (const [level, param, update] of levels) {
+    it(`previews x_ads_rename_${level} locally, then sends only the name to ${update}`, async () => {
+      const fetcher = vi.fn().mockResolvedValue(reply({ data: { id: "e1", name: "Spring sale" } })); vi.stubGlobal("fetch", fetcher);
+      const rename = tool(`rename_${level}`);
+      expect(rename.write).toBe(true);
+      const preview = data(await rename.handler({ account_id: "abc123", [param]: "e1", name: "Spring sale" }));
+      expect(preview).toMatchObject({ applied: false, action: `x_ads_rename_${level}`, account_id: "abc123", change: { target: "e1", newName: "Spring sale" }, activationMaySpend: false });
+      expect(fetcher).not.toHaveBeenCalled();
+      await rename.handler({ account_id: "abc123", [param]: "e1", name: "Spring sale", confirm: true });
+      expect(fetcher).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(fetcher.mock.calls[0][1].body).params).toEqual({ name: update, arguments: { account_id: "abc123", [param]: "e1", name: "Spring sale" } });
+    });
+  }
+  it("refuses foreign accounts, missing write scope, extra fields and oversized names before HTTP", async () => {
+    const fetcher = vi.fn(); vi.stubGlobal("fetch", fetcher);
+    await expect(tool("rename_campaign").handler({ account_id: "other", campaign_id: "c1", name: "New", confirm: true })).rejects.toThrow("not selected");
+    const readOnly = collect("x_ads", { ...config, scope: "ads.read" }).find(t => t.name === "x_ads_rename_campaign")!;
+    await expect(readOnly.handler({ account_id: "abc123", campaign_id: "c1", name: "New" })).rejects.toThrow("ads.write");
+    await expect(tool("rename_campaign").handler({ account_id: "abc123", campaign_id: "c1", name: "New", entity_status: "PAUSED" })).rejects.toThrow();
+    await expect(tool("rename_line_item").handler({ account_id: "abc123", line_item_id: "l1", name: "x".repeat(256) })).rejects.toThrow();
+    await expect(tool("rename_line_item").handler({ account_id: "abc123", line_item_id: "../l1", name: "New" })).rejects.toThrow();
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+  it("does not retry a rename whose outcome is unknown", async () => {
+    const fetcher = vi.fn().mockRejectedValue(new Error("socket hang up")); vi.stubGlobal("fetch", fetcher);
+    await expect(tool("rename_campaign").handler({ account_id: "abc123", campaign_id: "c1", name: "New", confirm: true })).rejects.toThrow("outcome is unknown");
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+});
+describe("X Ads provider error mapping", () => {
+  it.each([
+    [401, "authorization expired"],
+    [403, "denied this action"],
+    [429, "rate limit"],
+    [500, "verify the outcome"],
+  ])("maps HTTP %i to an actionable message without the provider body", async (status, message) => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(`echo ${config.accessToken}`, { status })));
+    const error = await new XAdsClient(config.accessToken).call("list_campaigns", { account_id: "abc123" }).catch(e => e);
+    expect(error.message).toContain(message);
+    expect(error.message).not.toContain(config.accessToken);
+    expect(error.status).toBe(status);
+  });
+  it("refuses a redirect instead of following it", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(null, { status: 302, headers: { location: "https://example.com/?token=leak" } })));
+    const error = await new XAdsClient(config.accessToken).call("list_campaigns", { account_id: "abc123" }).catch(e => e);
+    expect(error.message).toContain("HTTP 302");
+    expect(error.message).not.toMatch(/example\.com|leak/);
+  });
+  it("redacts the token from a tool result and keeps the provider error flag", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(reply({ errors: [{ message: `bad ${config.accessToken}` }] }, true)));
+    const result = await new XAdsClient(config.accessToken).call("list_campaigns", { account_id: "abc123" });
+    expect(result.isError).toBe(true);
+    expect(result.content[0].text).not.toContain(config.accessToken);
+  });
+});

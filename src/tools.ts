@@ -80,4 +80,33 @@ export function registerXAdsReads(c: Collector, config: XAdsConfig) {
   registerXMedia(c, config, false);
   c.resource?.("X Ads guide", "x-ads://guide", async () => ({contents:[{uri:"x-ads://guide",mimeType:"text/plain",text:"Only explicitly configured X Ads accounts are exposed. Use tools/list for the complete local catalog. Reads preserve native pagination, attribution and currency units. Monetary _micro fields are millionths of account currency. Writes are disabled by default; after enabling them, preview and obtain approval before confirm:true. Campaigns and line items start paused; activation can spend money. Reconcile uncertain outcomes before retrying. Native media uploads require media.write and may use X developer API credits. Media files are limited to 4 MB. This server has no hosted creative gallery or MCP Apps UI. OAuth setup: https://docs.x.com/x-ads-api/mcp ."}]}));
 }
-export function registerXAdsWrites(c: Collector, config: XAdsConfig) { register(c, config, true); registerXMedia(c, config, true); }
+export function registerXAdsWrites(c: Collector, config: XAdsConfig) { register(c, config, true); registerXMedia(c, config, true); registerXRenames(c, config); }
+
+/**
+ * Name-only calls to X's own update tools, so a rename can never pause, move or
+ * re-budget anything. Ported from the getmcpads gateway; same preview and
+ * confirm contract as the other writes.
+ */
+function registerXRenames(c: Collector, config: XAdsConfig) {
+  const api = new XAdsClient(config.accessToken);
+  for (const [level, param, update] of [["campaign", "campaign_id", "update_campaign"], ["line_item", "line_item_id", "update_line_item"]] as const) {
+    const name = `x_ads_rename_${level}`;
+    const label = level === "campaign" ? "campaign" : "line item (ad group)";
+    const shape: ToolShape = {
+      account_id: z.string().regex(/^[a-zA-Z0-9]+$/).max(64).describe("X Ads account ID from X_ADS_ACCOUNT_IDS."),
+      [param]: z.string().regex(/^[a-zA-Z0-9]+$/).max(64).describe(`${level === "campaign" ? "Campaign" : "Line item (ad group)"} ID belonging to the selected X Ads account.`),
+      name: z.string().min(1).max(255).describe("New name, 1 to 255 characters. This is the only thing the call changes."),
+      confirm: z.boolean().default(false).describe("False previews only; true applies this exact rename after explicit human confirmation."),
+    };
+    const schema = z.object(shape).strict();
+    c.tool(name, `Rename an X Ads ${label}. The name is the only thing that changes: status, budget, schedule and targeting are untouched. Preview by default. Ask the user to approve the exact account, target and new name before confirm:true.`, shape, async raw => {
+      const a = schema.parse(raw) as { account_id: string; name: string; confirm: boolean } & Record<string, unknown>;
+      if (!config.allowedAccountIds?.length) throw new Error("Configure X_ADS_ACCOUNT_IDS first.");
+      if (!config.allowedAccountIds.includes(a.account_id)) throw new Error("This X Ads account is not selected.");
+      for (const scope of ["ads.read", "ads.write"]) if (!config.scope?.split(" ").includes(scope)) throw new Error(`Authorize your X user token with ${scope} permission.`);
+      const target = String(a[param]);
+      if (!a.confirm) return ok({ applied: false, action: name, account_id: a.account_id, parameters: { [param]: target, name: a.name }, change: { target, newName: a.name }, activationMaySpend: false, message: "Preview only, nothing was changed. Ask the user to confirm this exact rename; repeat with confirm:true to apply it." });
+      return api.call(update, { account_id: a.account_id, [param]: target, name: a.name });
+    });
+  }
+}

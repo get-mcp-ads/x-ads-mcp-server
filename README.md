@@ -10,7 +10,7 @@ Read campaigns and performance, inspect targeting and prepare changes for explic
 [![CI](https://github.com/get-mcp-ads/x-ads-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/get-mcp-ads/x-ads-mcp-server/actions/workflows/ci.yml)
 [![Smithery](https://smithery.ai/badge/getmcpads/getmcpads-x-ads)](https://smithery.ai/servers/getmcpads/getmcpads-x-ads)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%E2%89%A522.12-brightgreen.svg)](package.json)
+[![Node](https://img.shields.io/badge/node-22.23.4%2B%20%7C%2024.22.1%2B%20%7C%2026.12.1%2B-brightgreen.svg)](package.json)
 
 [Watch the film](https://www.getmcpads.com/home/film/get-mcp-ads-brand-film-1080p.mp4) · [What's new](#whats-new) · [Install](#install-this-release) · [Tool reference](#tools) · [Try hosted getmcpads](https://www.getmcpads.com/tools/x-ads?utm_source=github&utm_medium=readme&utm_campaign=x-ads)
 
@@ -22,32 +22,47 @@ Read campaigns and performance, inspect targeting and prepare changes for explic
 
 The film shows hosted getmcpads with sample data. Its MCP Apps, from creative galleries and alerts to Google Sheets exports and bulk launches, belong to the hosted product. This repository provides the standalone native API tools.
 
-**25 read tools** · **19 write tools**, disabled by default.
+**25 read tools** · **21 write tools**, disabled by default.
 
 Run locally with your own platform credentials and a client that supports stdio MCP, such as Claude Desktop, Claude Code or Cursor. Your requests go directly to the platform. For managed connections, including supported ChatGPT setups, use the hosted option.
 
 ## What's new
 
-**[v1.0.1: First standalone release](https://github.com/get-mcp-ads/x-ads-mcp-server/releases/tag/v1.0.1) · September 20, 2026**
+<!-- release-history:start -->
+**[v1.1.0: Campaign and line item rename](https://github.com/get-mcp-ads/x-ads-mcp-server/releases/tag/v1.1.0) · October 23, 2026**
 
-- Create the first runnable standalone server using the reviewed native tool subset.
-- Require explicit account IDs, default to read-only, preview writes and preserve native pagination.
-- Use fixed X endpoints, bounded responses, timeouts and credential redaction without automatic write retries.
-- Require Node.js 22.12 or newer and check Node 22/24 in CI.
-- Update vulnerable dependencies and regenerate the MCP catalog.
+- Add `x_ads_rename_campaign` and `x_ads_rename_line_item`. Each previews by default, checks the account allowlist and the `ads.write` scope, then sends only `account_id`, the entity ID and `name` to X's `update_campaign` or `update_line_item`.
+- Declare both X endpoints in `src/hosts.ts`. New tests fail on a fetch without redirect handling or a timeout, and on any other host in `src/`.
+- Add `test/readme-accuracy.test.mjs`: every tool and the `x-ads://guide` resource are cited in the README, nothing else is, the counts match the code, and published prose has no em dash.
+- Update `@modelcontextprotocol/sdk` to 1.32.1 and regenerate `package-lock.json`. Require Node.js 22.23.4, 24.22.1, 26.12.1 or newer, and warn on stderr at startup on an older release. CI covers Node 22, 24 and 26.
+- Publish from a version tag with the new `release.yml`: npm with provenance, the GitHub release, then the MCP Registry. Dependabot now proposes weekly npm and monthly GitHub Actions updates.
 
-[Full changelog](CHANGELOG.md) · [Source synchronization details](SOURCE_SYNC.md) · [All releases](https://github.com/get-mcp-ads/x-ads-mcp-server/releases)
+**Earlier releases**
+
+| Version | Date | Highlights |
+| --- | --- | --- |
+| 1.0.1 | September 23, 2026 | Public repository restored |
+| 1.0.0 | September 20, 2026 | First standalone release |
+
+[Full changelog](CHANGELOG.md) · [All releases](https://github.com/get-mcp-ads/x-ads-mcp-server/releases)
+<!-- release-history:end -->
+
+Source synchronization: [SOURCE_SYNC.md](SOURCE_SYNC.md).
 
 ### Upgrade notes
 
-Requires **Node.js 22.12 or newer**. CI covers Node 22 and 24. Read the current tool schemas before reusing saved arguments. Writes remain optional and require explicit confirmation. Hosted creative integrations and MCP Apps UI are outside this release.
+Requires **Node.js 22.23.4, 24.22.1, 26.12.1 or a newer release**. These carry the October 2026 security fixes, and the server prints a warning on stderr when it runs on an older one. CI covers Node 22, 24 and 26.
+
+**No breaking change.** Configuration variables and accepted values are unchanged: `X_ADS_ACCOUNT_IDS` stays required and only `true` enables writes, as in 1.0. The rename tools are writes: they appear only with `X_ADS_ENABLE_WRITES=true` and need `ads.write` in `X_ADS_SCOPES`.
+
+Read the current tool schemas before reusing saved arguments. Writes remain optional and require explicit confirmation. Hosted creative integrations and MCP Apps UI are outside this release.
 
 ## Install this release
 
-This is a GitHub source release. npm and MCP Registry versions are published separately. The commands below select this exact version; unpinned `npx` examples later in this document select the version currently available on npm.
+This is a GitHub source release. npm and MCP Registry versions are published separately. The commands below select this exact version.
 
 ```bash
-git clone --branch v1.0.1 --depth 1 https://github.com/get-mcp-ads/x-ads-mcp-server.git
+git clone --branch v1.1.0 --depth 1 https://github.com/get-mcp-ads/x-ads-mcp-server.git
 cd x-ads-mcp-server
 npm ci
 npm run build
@@ -139,7 +154,7 @@ Every tool is listed below. See [server-card.json](server-card.json) for complet
 </details>
 
 <details>
-<summary><b>19 write tools</b></summary>
+<summary><b>21 write tools</b></summary>
 
 Disabled by default. Calls preview unless explicitly confirmed. Check the configuration and exact schema before use.
 
@@ -164,6 +179,17 @@ Disabled by default. Calls preview unless explicitly confirmed. Check the config
 | `x_ads_delete_web_event_tag` | Delete a website conversion event tag Preview by default. |
 | `x_ads_update_web_event_tag` | Update a website conversion event tag Preview by default. |
 | `x_ads_upload_media` | Upload an image, GIF or MP4 clip to X. |
+| `x_ads_rename_campaign` | Rename an X Ads campaign. The name is the only thing that changes. |
+| `x_ads_rename_line_item` | Rename an X Ads line item (ad group). The name is the only thing that changes. |
+
+</details>
+
+<details>
+<summary><b>1 resource</b></summary>
+
+| URI | Contents |
+| --- | --- |
+| `x-ads://guide` | Account scoping, units, write workflow and media limits for this server |
 
 </details>
 
