@@ -3,7 +3,7 @@
   "name": "com.getmcpads/x-ads",
   "title": "X Ads",
   "description": "X Ads MCP server: 25 read tools, 21 opt-in preview-first writes.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "websiteUrl": "https://www.getmcpads.com/tools/x-ads",
   "repository": {
     "url": "https://github.com/get-mcp-ads/x-ads-mcp-server",
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@getmcpads/x-ads-mcp-server",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "transport": {
         "type": "stdio"
       },

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 - 2026-10-26 - Zod 4 security update
+- Update `zod` to 4.6.7. Every Zod release before 4.6.6 is covered by the high-severity advisory GHSA-mrhx-c7xc-m3w5: validating an oversized constrained collection can exhaust memory, and no Zod 3 release carries the fix. `npm audit --omit=dev` reports no vulnerability again.
+- Keep the Zod 3 validation behaviour. A parameter default is still validated and completed before use, so an omitted object must still supply its required fields.
+- Keep each parameter's own description when the parameter is optional or has a default. Zod 4 stores a description on the wrapped schema only, so the shared fallback description could otherwise replace it.
+- Tool names, parameters and descriptions published over MCP are unchanged. `server-card.json` is regenerated with Zod 4's JSON Schema output, which spells some constraints differently.
+
 ## 1.1.0 - 2026-10-23 - Campaign and line item rename
 - Add `x_ads_rename_campaign` and `x_ads_rename_line_item`. Each previews by default, checks the account allowlist and the `ads.write` scope, then sends only `account_id`, the entity ID and `name` to X's `update_campaign` or `update_line_item`.
 - Declare both X endpoints in `src/hosts.ts`. New tests fail on a fetch without redirect handling or a timeout, and on any other host in `src/`.

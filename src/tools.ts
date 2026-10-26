@@ -41,7 +41,7 @@ function shapeFor(spec: typeof specs[number]): ToolShape {
     if (description) schema = schema.describe(description);
     if (spec.name === "create_card" && ["name", "components"].includes(key)) required.add(key);
     if (spec.name === "create_media_library_item" && key === "media_key") required.add(key);
-    if (spec.name === "create_line_item" && key === "bid_strategy") schema = schema.default("AUTO");
+    if (spec.name === "create_line_item" && key === "bid_strategy") schema = schema.prefault("AUTO");
     else if (!required.has(key)) schema = schema.optional();
     return [key, schema];
   }));
@@ -51,7 +51,7 @@ function register(c: Collector, config: XAdsConfig, writes: boolean) {
   for (const spec of specs.filter(s => s.write === writes)) {
     const name = `x_ads_${spec.name}`;
     const shape: ToolShape = spec.name === "list_ads_accounts" ? { account_ids: z.string().optional().describe("Optional comma-separated IDs, restricted to selected accounts. Returns all selected accounts when omitted.") } : shapeFor(spec);
-    if (writes) shape.confirm = z.boolean().default(false).describe("False previews only; true applies this exact change after explicit human confirmation.");
+    if (writes) shape.confirm = z.boolean().prefault(false).describe("False previews only; true applies this exact change after explicit human confirmation.");
     const schema = z.object(shape).strict();
     c.tool(name, spec.description + (writes ? " Preview by default. Ask the user to approve the exact account, target and parameters before confirm:true." : " Native X fields and pagination are preserved; monetary fields ending in _micro are millionths of the account currency."), shape, async raw => {
       const { confirm, ...args } = schema.parse(raw);
@@ -96,7 +96,7 @@ function registerXRenames(c: Collector, config: XAdsConfig) {
       account_id: z.string().regex(/^[a-zA-Z0-9]+$/).max(64).describe("X Ads account ID from X_ADS_ACCOUNT_IDS."),
       [param]: z.string().regex(/^[a-zA-Z0-9]+$/).max(64).describe(`${level === "campaign" ? "Campaign" : "Line item (ad group)"} ID belonging to the selected X Ads account.`),
       name: z.string().min(1).max(255).describe("New name, 1 to 255 characters. This is the only thing the call changes."),
-      confirm: z.boolean().default(false).describe("False previews only; true applies this exact rename after explicit human confirmation."),
+      confirm: z.boolean().prefault(false).describe("False previews only; true applies this exact rename after explicit human confirmation."),
     };
     const schema = z.object(shape).strict();
     c.tool(name, `Rename an X Ads ${label}. The name is the only thing that changes: status, budget, schedule and targeting are untouched. Preview by default. Ask the user to approve the exact account, target and new name before confirm:true.`, shape, async raw => {

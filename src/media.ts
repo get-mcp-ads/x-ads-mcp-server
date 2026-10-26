@@ -56,7 +56,7 @@ export function registerXMedia(c: Collector, config: XAdsConfig, writes: boolean
     account_id: account,
     media_base64: z.string().min(4).max(Math.ceil(MAX_BYTES / 3) * 4).regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/).describe("File bytes as base64, without a data URL prefix. Maximum 4 MB per file, including MP4 clips. No URL fetching."),
     media_type: z.enum(["image/png", "image/jpeg", "image/gif", "video/mp4"]).describe("MIME type matching the actual uploaded file bytes."),
-    confirm: z.boolean().default(false).describe("False previews only; true uploads after human confirmation, potentially charging X developer API credits."),
+    confirm: z.boolean().prefault(false).describe("False previews only; true uploads after human confirmation, potentially charging X developer API credits."),
   };
   c.tool("x_ads_upload_media", "Upload an image, GIF or MP4 clip to X. Preview includes size and SHA-256 only. X API credits may be charged. Images use one request; video/GIF use initialize, append and finalize without retries. Check processing before registering the returned media_key with create_media_library_item. Does not create or activate an ad.", shape, async raw => {
     const args = z.object(shape).strict().parse(raw); access(config, args.account_id);
