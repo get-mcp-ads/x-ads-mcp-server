@@ -2,7 +2,7 @@
   "serverInfo": {
     "name": "@getmcpads/x-ads-mcp-server",
     "title": "X Ads MCP server: 25 read tools, 21 opt-in preview-first writes.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "websiteUrl": "https://www.getmcpads.com/tools/x-ads",
     "icons": [
       {
@@ -20,11 +20,10 @@
         "type": "object",
         "properties": {
           "account_ids": {
-            "type": "string",
-            "description": "Optional comma-separated IDs, restricted to selected accounts. Returns all selected accounts when omitted."
+            "description": "Optional comma-separated IDs, restricted to selected accounts. Returns all selected accounts when omitted.",
+            "type": "string"
           }
         },
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -35,7 +34,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -60,8 +59,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -82,58 +81,57 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_ids": {
+            "description": "Comma-separated campaign IDs to scope the response to.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated campaign IDs to scope the response to."
+            "maxLength": 100000
           },
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "funding_instrument_ids": {
+            "description": "Comma-separated funding instrument IDs to scope the results to (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated funding instrument IDs to scope the results to (max 200)."
+            "maxLength": 100000
           },
           "q": {
+            "description": "Search by campaign name (1-255 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Search by campaign name (1-255 characters)."
+            "maxLength": 100000
           },
           "sort_by": {
+            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc."
+            "maxLength": 100000
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include soft-deleted campaigns in the response (default false)."
+            "description": "Include soft-deleted campaigns in the response (default false).",
+            "type": "boolean"
           },
           "with_draft": {
-            "type": "boolean",
-            "description": "Include draft campaigns in the response (default false)."
+            "description": "Include draft campaigns in the response (default false).",
+            "type": "boolean"
           },
           "with_total_count": {
-            "type": "boolean",
-            "description": "Include the total_count response attribute (default false; exclusive with cursor)."
+            "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -144,7 +142,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -169,8 +167,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -191,8 +189,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_id": {
@@ -201,15 +199,14 @@
             "description": "Campaign ID belonging to the selected X Ads account."
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include the campaign even if soft-deleted (default false)."
+            "description": "Include the campaign even if soft-deleted (default false).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "campaign_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -220,7 +217,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -245,8 +242,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -267,44 +264,43 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "funding_instrument_ids": {
+            "description": "Comma-separated funding instrument IDs to fetch specific records (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated funding instrument IDs to fetch specific records (max 200)."
+            "maxLength": 100000
           },
           "sort_by": {
+            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc."
+            "maxLength": 100000
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include soft-deleted funding instruments (default false)."
+            "description": "Include soft-deleted funding instruments (default false).",
+            "type": "boolean"
           },
           "with_total_count": {
-            "type": "boolean",
-            "description": "Include the total_count response attribute (default false; exclusive with cursor)."
+            "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -315,7 +311,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -340,8 +336,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -362,63 +358,62 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_ids": {
+            "description": "Comma-separated campaign IDs to scope the line items to.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated campaign IDs to scope the line items to."
+            "maxLength": 100000
           },
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "funding_instrument_ids": {
+            "description": "Comma-separated funding instrument IDs to scope the results to (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated funding instrument IDs to scope the results to (max 200)."
+            "maxLength": 100000
           },
           "line_item_ids": {
+            "description": "Comma-separated line item IDs to fetch specific records (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated line item IDs to fetch specific records (max 200)."
+            "maxLength": 100000
           },
           "q": {
+            "description": "Search by line item name (1-255 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Search by line item name (1-255 characters)."
+            "maxLength": 100000
           },
           "sort_by": {
+            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc."
+            "maxLength": 100000
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include soft-deleted line items in the response (default false)."
+            "description": "Include soft-deleted line items in the response (default false).",
+            "type": "boolean"
           },
           "with_draft": {
-            "type": "boolean",
-            "description": "Include line items of draft campaigns in the response (default false)."
+            "description": "Include line items of draft campaigns in the response (default false).",
+            "type": "boolean"
           },
           "with_total_count": {
-            "type": "boolean",
-            "description": "Include the total_count response attribute (default false; exclusive with cursor)."
+            "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -429,7 +424,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -454,8 +449,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -476,8 +471,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "line_item_id": {
@@ -486,15 +481,14 @@
             "description": "Line item ID belonging to the selected X Ads account."
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include the line item even if soft-deleted (default false)."
+            "description": "Include the line item even if soft-deleted (default false).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "line_item_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -505,7 +499,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -530,8 +524,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -552,49 +546,48 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "line_item_ids": {
+            "description": "Comma-separated line item IDs to scope the promoted posts to.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated line item IDs to scope the promoted posts to."
+            "maxLength": 100000
           },
           "promoted_tweet_ids": {
+            "description": "Comma-separated promoted post IDs to fetch specific records (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated promoted post IDs to fetch specific records (max 200)."
+            "maxLength": 100000
           },
           "sort_by": {
+            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc."
+            "maxLength": 100000
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include soft-deleted promoted posts in the response (default false)."
+            "description": "Include soft-deleted promoted posts in the response (default false).",
+            "type": "boolean"
           },
           "with_total_count": {
-            "type": "boolean",
-            "description": "Include the total_count response attribute (default false; exclusive with cursor)."
+            "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -605,7 +598,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -630,8 +623,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -652,25 +645,25 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "lang": {
+            "description": "BCP-47 language code; adds a localized_name response attribute for localizable criteria.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "BCP-47 language code; adds a localized_name response attribute for localizable criteria."
+            "maxLength": 100000
           },
           "line_item_ids": {
             "type": "string",
@@ -678,29 +671,28 @@
             "description": "Comma-separated line item IDs to scope the targeting criteria to (the legacy API requires this fi..."
           },
           "sort_by": {
+            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc."
+            "maxLength": 100000
           },
           "targeting_criterion_ids": {
+            "description": "Comma-separated targeting criterion IDs to fetch specific records (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated targeting criterion IDs to fetch specific records (max 200)."
+            "maxLength": 100000
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include soft-deleted targeting criteria (default false)."
+            "description": "Include soft-deleted targeting criteria (default false).",
+            "type": "boolean"
           },
           "with_total_count": {
-            "type": "boolean",
-            "description": "Include the total_count response attribute (default false; exclusive with cursor)."
+            "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "line_item_ids"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -711,7 +703,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -736,8 +728,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -758,42 +750,42 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "include_mentions_and_replies": {
-            "type": "boolean",
-            "description": "Include mentions and replies in the results (default false)."
+            "description": "Include mentions and replies in the results (default false).",
+            "type": "boolean"
           },
           "timeline_type": {
+            "description": "Scope to promoted-only, organic or all posts (default NULLCAST).",
             "type": "string",
             "enum": [
               "ALL",
               "NULLCAST",
               "ORGANIC"
-            ],
-            "description": "Scope to promoted-only, organic or all posts (default NULLCAST)."
+            ]
           },
           "trim_user": {
-            "type": "boolean",
-            "description": "Return only the author's user ID instead of the full user object (default false)."
+            "description": "Return only the author's user ID instead of the full user object (default false).",
+            "type": "boolean"
           },
           "tweet_ids": {
+            "description": "Comma-separated post (tweet) IDs to scope the response to.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated post (tweet) IDs to scope the response to."
+            "maxLength": 100000
           },
           "tweet_type": {
             "type": "string",
@@ -805,16 +797,15 @@
             "description": "Post type to list (the legacy API requires this filter)."
           },
           "user_id": {
+            "description": "Promotable user whose posts to list (defaults to the account's own user).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Promotable user whose posts to list (defaults to the account's own user)."
+            "maxLength": 100000
           }
         },
         "required": [
           "account_id",
           "tweet_type"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -825,7 +816,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -850,8 +841,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -872,44 +863,43 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "count": {
+            "description": "Number of records to return per page (default 200, max 1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (default 200, max 1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "sort_by": {
+            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc."
+            "maxLength": 100000
           },
           "web_event_tag_ids": {
+            "description": "Comma-separated web event tag IDs to fetch specific records (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated web event tag IDs to fetch specific records (max 200)."
+            "maxLength": 100000
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include soft-deleted records (default false)."
+            "description": "Include soft-deleted records (default false).",
+            "type": "boolean"
           },
           "with_total_count": {
-            "type": "boolean",
-            "description": "Include the total_count response attribute (default false; exclusive with cursor)."
+            "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -920,7 +910,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -945,8 +935,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -966,16 +956,15 @@
         "type": "object",
         "properties": {
           "product_type": {
+            "description": "Restrict placements to one product type.",
             "type": "string",
             "enum": [
               "MEDIA",
               "PROMOTED_ACCOUNT",
               "PROMOTED_TWEETS"
-            ],
-            "description": "Restrict placements to one product type."
+            ]
           }
         },
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -986,7 +975,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1011,8 +1000,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1033,8 +1022,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "end_time": {
@@ -1099,7 +1088,6 @@
           "placement",
           "start_time"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1110,7 +1098,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1135,8 +1123,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1157,14 +1145,14 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_ids": {
+            "description": "Comma-separated campaign IDs to scope the check to (max 200; exclusive with the other ids filters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated campaign IDs to scope the check to (max 200; exclusive with the other ids filters)."
+            "maxLength": 100000
           },
           "end_time": {
             "type": "string",
@@ -1184,14 +1172,14 @@
             "description": "Entity type to check for metric activity."
           },
           "funding_instrument_ids": {
+            "description": "Comma-separated funding instrument IDs to scope the check to (max 200; exclusive with the other i...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated funding instrument IDs to scope the check to (max 200; exclusive with the other i..."
+            "maxLength": 100000
           },
           "line_item_ids": {
+            "description": "Comma-separated line item IDs to scope the check to (max 200; exclusive with the other ids filters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated line item IDs to scope the check to (max 200; exclusive with the other ids filters)."
+            "maxLength": 100000
           },
           "start_time": {
             "type": "string",
@@ -1205,7 +1193,6 @@
           "entity",
           "start_time"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1216,7 +1203,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1241,8 +1228,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1263,8 +1250,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_ids": {
@@ -1289,7 +1276,6 @@
           "end_time",
           "start_time"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1300,7 +1286,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1325,8 +1311,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1346,23 +1332,22 @@
         "type": "object",
         "properties": {
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "q": {
+            "description": "Free-text interest name to search for, e.g. \"motorsports\". Omit to list interests unfiltered.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Free-text interest name to search for, e.g. \"motorsports\". Omit to list interests unfiltered."
+            "maxLength": 100000
           }
         },
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1373,7 +1358,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1398,8 +1383,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1419,22 +1404,23 @@
         "type": "object",
         "properties": {
           "count": {
+            "description": "Number of records to return per page (1-1000).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 1000,
-            "description": "Number of records to return per page (1-1000)."
+            "maximum": 1000
           },
           "country_code": {
+            "description": "Two-letter ISO country code to scope results to, e.g. US.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Two-letter ISO country code to scope results to, e.g. US."
+            "maxLength": 100000
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "location_type": {
+            "description": "Scope results to one location granularity.",
             "type": "string",
             "enum": [
               "COUNTRIES",
@@ -1442,16 +1428,14 @@
               "METROS",
               "CITIES",
               "POSTAL_CODES"
-            ],
-            "description": "Scope results to one location granularity."
+            ]
           },
           "q": {
+            "description": "Free-text location name to search for, e.g. \"united states\" or \"london\". Omit to list locations u...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Free-text location name to search for, e.g. \"united states\" or \"london\". Omit to list locations u..."
+            "maxLength": 100000
           }
         },
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1462,7 +1446,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1487,8 +1471,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1509,63 +1493,62 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "card_ids": {
+            "description": "Comma-separated card IDs to fetch specific cards (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated card IDs to fetch specific cards (max 200)."
+            "maxLength": 100000
           },
           "card_types": {
+            "description": "Comma-separated unified card types to filter by, e.g. IMAGE_WEBSITE, VIDEO_WEBSITE, IMAGE_APP, VI...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated unified card types to filter by, e.g. IMAGE_WEBSITE, VIDEO_WEBSITE, IMAGE_APP, VI..."
+            "maxLength": 100000
           },
           "card_uris": {
+            "description": "Comma-separated card URIs to fetch specific cards (max 200).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated card URIs to fetch specific cards (max 200)."
+            "maxLength": 100000
           },
           "count": {
+            "description": "Number of records to return per page (default 100, max 200).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 200,
-            "description": "Number of records to return per page (default 100, max 200)."
+            "maximum": 200
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "include_legacy_cards": {
-            "type": "boolean",
-            "description": "Include legacy (non-unified) cards in the response (default false)."
+            "description": "Include legacy (non-unified) cards in the response (default false).",
+            "type": "boolean"
           },
           "q": {
+            "description": "Search query matching against the card name.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Search query matching against the card name."
+            "maxLength": 100000
           },
           "sort_by": {
+            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc."
+            "maxLength": 100000
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include soft-deleted cards (default false)."
+            "description": "Include soft-deleted cards (default false).",
+            "type": "boolean"
           },
           "with_total_count": {
-            "type": "boolean",
-            "description": "Include the total_count response attribute (default false; exclusive with cursor)."
+            "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1576,7 +1559,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1601,8 +1584,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1623,8 +1606,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "card_id": {
@@ -1633,15 +1616,14 @@
             "description": "Card ID belonging to the selected X Ads account."
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include the card even if soft-deleted (default false)."
+            "description": "Include the card even if soft-deleted (default false).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "card_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1652,7 +1634,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1677,8 +1659,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1699,36 +1681,35 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "count": {
+            "description": "Number of records to return per page (default 20, max 50).",
             "type": "integer",
             "minimum": 1,
-            "maximum": 50,
-            "description": "Number of records to return per page (default 20, max 50)."
+            "maximum": 50
           },
           "cursor": {
+            "description": "Pagination cursor from a previous response.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Pagination cursor from a previous response."
+            "maxLength": 100000
           },
           "media_type": {
+            "description": "Restrict to one media type: IMAGE, VIDEO or GIF.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Restrict to one media type: IMAGE, VIDEO or GIF."
+            "maxLength": 100000
           },
           "q": {
+            "description": "Search query matching against name, title, file_name and description.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Search query matching against name, title, file_name and description."
+            "maxLength": 100000
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1739,7 +1720,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1764,8 +1745,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1786,8 +1767,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "media_key": {
@@ -1800,7 +1781,6 @@
           "account_id",
           "media_key"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1811,7 +1791,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1836,8 +1816,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1858,8 +1838,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "promoted_tweet_id": {
@@ -1868,15 +1848,14 @@
             "description": "Promoted post association ID belonging to the selected X Ads account."
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include the promoted post even if soft-deleted (default false)."
+            "description": "Include the promoted post even if soft-deleted (default false).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "promoted_tweet_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1887,7 +1866,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1912,8 +1891,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -1934,14 +1913,14 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "lang": {
+            "description": "BCP-47 language code; adds a localized_name response attribute for localizable criteria.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "BCP-47 language code; adds a localized_name response attribute for localizable criteria."
+            "maxLength": 100000
           },
           "targeting_criterion_id": {
             "type": "string",
@@ -1949,15 +1928,14 @@
             "description": "Targeting criterion ID belonging to the selected X Ads account."
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include the criterion even if soft-deleted (default false)."
+            "description": "Include the criterion even if soft-deleted (default false).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "targeting_criterion_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -1968,7 +1946,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -1993,8 +1971,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -2015,8 +1993,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "tweet_ids": {
@@ -2034,9 +2012,9 @@
             "description": "Type of the IDs in tweet_ids."
           },
           "user_id": {
+            "description": "Promotable user the posts belong to (defaults to the account's own user); needed when previewing ...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Promotable user the posts belong to (defaults to the account's own user); needed when previewing ..."
+            "maxLength": 100000
           }
         },
         "required": [
@@ -2044,7 +2022,6 @@
           "tweet_ids",
           "tweet_type"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2055,7 +2032,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2080,8 +2057,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -2102,8 +2079,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "web_event_tag_id": {
@@ -2112,15 +2089,14 @@
             "description": "Website conversion event ID belonging to the selected X Ads account."
           },
           "with_deleted": {
-            "type": "boolean",
-            "description": "Include the tag even if soft-deleted (default false)."
+            "description": "Include the tag even if soft-deleted (default false).",
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "web_event_tag_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2131,7 +2107,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2156,8 +2132,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -2178,8 +2154,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account from X_ADS_ACCOUNT_IDS. Register the resulting media in this account's media library."
           },
           "media_id": {
@@ -2192,7 +2168,6 @@
           "account_id",
           "media_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2203,7 +2178,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2228,8 +2203,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": true,
@@ -2250,8 +2225,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "funding_instrument_id": {
@@ -2265,14 +2240,14 @@
             "description": "Campaign name (1-255 characters)."
           },
           "purchase_order_number": {
+            "description": "Booking reference / PO number carried onto invoices for invoice-billed accounts (max 50 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Booking reference / PO number carried onto invoices for invoice-billed accounts (max 50 characters)."
+            "maxLength": 100000
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
@@ -2280,7 +2255,6 @@
           "funding_instrument_id",
           "name"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2291,7 +2265,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2316,8 +2290,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -2338,8 +2312,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_id": {
@@ -2348,42 +2322,41 @@
             "description": "Campaign ID belonging to the selected X Ads account."
           },
           "entity_status": {
+            "description": "Only PAUSED is accepted (pauses the campaign). Activation is a separate explicit action via activ...",
             "type": "string",
             "enum": [
               "PAUSED"
-            ],
-            "description": "Only PAUSED is accepted (pauses the campaign). Activation is a separate explicit action via activ..."
+            ]
           },
           "funding_instrument_id": {
+            "description": "Move the campaign to a different funding instrument (from list_funding_instruments; must have abl...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Move the campaign to a different funding instrument (from list_funding_instruments; must have abl..."
+            "maxLength": 100000
           },
           "name": {
+            "description": "New campaign name (1-255 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New campaign name (1-255 characters)."
+            "maxLength": 100000
           },
           "purchase_order_number": {
+            "description": "New booking reference / PO number carried onto invoices for invoice-billed accounts (max 50 chara...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New booking reference / PO number carried onto invoices for invoice-billed accounts (max 50 chara..."
+            "maxLength": 100000
           },
           "standard_delivery": {
-            "type": "boolean",
-            "description": "true paces spend evenly through the day; false spends as fast as possible (accelerated delivery)."
+            "description": "true paces spend evenly through the day; false spends as fast as possible (accelerated delivery).",
+            "type": "boolean"
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "campaign_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2394,7 +2367,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2419,8 +2392,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -2441,8 +2414,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_id": {
@@ -2451,16 +2424,15 @@
             "description": "Campaign ID belonging to the selected X Ads account."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "campaign_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2471,7 +2443,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2496,8 +2468,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -2518,44 +2490,44 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "advertiser_domain": {
+            "description": "Website domain of the advertiser (no protocol), e.g. x.com; required when placements includes PUB...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Website domain of the advertiser (no protocol), e.g. x.com; required when placements includes PUB..."
+            "maxLength": 100000
           },
           "android_app_store_identifier": {
+            "description": "Google Play package name of the promoted app, e.g. com.example.app; for APP_INSTALLS / APP_ENGAGE...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Google Play package name of the promoted app, e.g. com.example.app; for APP_INSTALLS / APP_ENGAGE..."
+            "maxLength": 100000
           },
           "audience_expansion": {
+            "description": "Audience expansion level. EXPANDED is what Ads Manager calls Optimized Targeting: serving may ext...",
             "type": "string",
             "enum": [
               "BROAD",
               "DEFINED",
               "EXPANDED"
-            ],
-            "description": "Audience expansion level. EXPANDED is what Ads Manager calls Optimized Targeting: serving may ext..."
+            ]
           },
           "bid_amount_local_micro": {
+            "description": "Bid in micros of the account currency; only with bid_strategy MAX or TARGET.",
             "type": "integer",
             "minimum": 0,
-            "maximum": 9007199254740991,
-            "description": "Bid in micros of the account currency; only with bid_strategy MAX or TARGET."
+            "maximum": 9007199254740991
           },
           "bid_strategy": {
+            "description": "Bidding strategy. AUTO (default) needs no bid amount; MAX/TARGET require bid_amount_local_micro.",
+            "default": "AUTO",
             "type": "string",
             "enum": [
               "AUTO",
               "MAX",
               "TARGET"
-            ],
-            "description": "Bidding strategy. AUTO (default) needs no bid amount; MAX/TARGET require bid_amount_local_micro.",
-            "default": "AUTO"
+            ]
           },
           "campaign_id": {
             "type": "string",
@@ -2563,9 +2535,9 @@
             "description": "Campaign to create the line item under."
           },
           "categories": {
+            "description": "Comma-separated IAB content category IDs for the advertiser, e.g. IAB3-1,IAB19 (see list_iab_cate...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated IAB content category IDs for the advertiser, e.g. IAB3-1,IAB19 (see list_iab_cate..."
+            "maxLength": 100000
           },
           "daily_budget_amount_local_micro": {
             "type": "integer",
@@ -2574,36 +2546,36 @@
             "description": "Daily budget for this line item (ad group) in micros of the account currency (e.g. 50000000 = $50..."
           },
           "duration_in_days": {
+            "description": "Window over which frequency_cap applies (1, 7 or 30 days); set together with frequency_cap.",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "Window over which frequency_cap applies (1, 7 or 30 days); set together with frequency_cap."
+            "maximum": 9007199254740991
           },
           "end_time": {
+            "description": "Line item end time (ISO 8601). Omit for no end.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Line item end time (ISO 8601). Omit for no end."
+            "maxLength": 100000
           },
           "frequency_cap": {
+            "description": "Maximum times an ad can be delivered to a user within duration_in_days; only for REACH, ENGAGEMEN...",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "Maximum times an ad can be delivered to a user within duration_in_days; only for REACH, ENGAGEMEN..."
+            "maximum": 9007199254740991
           },
           "goal": {
+            "description": "Optimization goal (e.g. ENGAGEMENT, LINK_CLICKS, SITE_VISITS, WEBSITE_CONVERSIONS, FOLLOWERS, APP...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Optimization goal (e.g. ENGAGEMENT, LINK_CLICKS, SITE_VISITS, WEBSITE_CONVERSIONS, FOLLOWERS, APP..."
+            "maxLength": 100000
           },
           "ios_app_store_identifier": {
+            "description": "Numeric Apple App Store ID of the promoted app, e.g. 333903271; for APP_INSTALLS / APP_ENGAGEMENT...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Numeric Apple App Store ID of the promoted app, e.g. 333903271; for APP_INSTALLS / APP_ENGAGEMENT..."
+            "maxLength": 100000
           },
           "name": {
+            "description": "Line item name (1-255 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Line item name (1-255 characters)."
+            "maxLength": 100000
           },
           "objective": {
             "type": "string",
@@ -2620,6 +2592,7 @@
             "description": "Campaign objective for this line item."
           },
           "pay_by": {
+            "description": "Unit to pay by. Only settable for APP_INSTALLS (APP_CLICK or APP_INSTALL) and REACH (IMPRESSION) ...",
             "type": "string",
             "enum": [
               "APP_CLICK",
@@ -2632,8 +2605,7 @@
               "VIEW_3S_100PCT",
               "VIEW_6S",
               "VIDEO_START"
-            ],
-            "description": "Unit to pay by. Only settable for APP_INSTALLS (APP_CLICK or APP_INSTALL) and REACH (IMPRESSION) ..."
+            ]
           },
           "placements": {
             "type": "string",
@@ -2641,22 +2613,22 @@
             "description": "Comma-separated placements, e.g. ALL_ON_TWITTER or TWITTER_TIMELINE,TWITTER_PROFILE. Valid values..."
           },
           "primary_web_event_tag": {
+            "description": "Website conversion tag (pixel) id, required when goal=WEBSITE_CONVERSIONS; see list_web_event_tags.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Website conversion tag (pixel) id, required when goal=WEBSITE_CONVERSIONS; see list_web_event_tags."
+            "maxLength": 100000
           },
           "product_type": {
+            "description": "Promoted product type. ads-api requires it on every new line item; sent as PROMOTED_TWEETS (post-...",
             "type": "string",
             "enum": [
               "PROMOTED_TWEETS",
               "PROMOTED_ACCOUNT",
               "MEDIA"
-            ],
-            "description": "Promoted product type. ads-api requires it on every new line item; sent as PROMOTED_TWEETS (post-..."
+            ]
           },
           "standard_delivery": {
-            "type": "boolean",
-            "description": "true (default) paces spend evenly through the day; false spends as fast as possible (accelerated ..."
+            "description": "true (default) paces spend evenly through the day; false spends as fast as possible (accelerated ...",
+            "type": "boolean"
           },
           "start_time": {
             "type": "string",
@@ -2664,15 +2636,15 @@
             "description": "Line item start time (ISO 8601, e.g. 2026-08-01T00:00:00Z). ads-api requires it on every new line..."
           },
           "total_budget_amount_local_micro": {
+            "description": "Line item total budget in micros of the account currency.",
             "type": "integer",
             "minimum": 0,
-            "maximum": 9007199254740991,
-            "description": "Line item total budget in micros of the account currency."
+            "maximum": 9007199254740991
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
@@ -2683,7 +2655,6 @@
           "placements",
           "start_time"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2694,7 +2665,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2719,8 +2690,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -2741,88 +2712,88 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "advertiser_domain": {
+            "description": "New website domain of the advertiser (no protocol); required when placements includes PUBLISHER_N...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New website domain of the advertiser (no protocol); required when placements includes PUBLISHER_N..."
+            "maxLength": 100000
           },
           "android_app_store_identifier": {
+            "description": "New Google Play package name of the promoted app, e.g. com.example.app.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New Google Play package name of the promoted app, e.g. com.example.app."
+            "maxLength": 100000
           },
           "audience_expansion": {
+            "description": "New audience expansion level; EXPANDED turns on what Ads Manager calls Optimized Targeting (off b...",
             "type": "string",
             "enum": [
               "BROAD",
               "DEFINED",
               "EXPANDED"
-            ],
-            "description": "New audience expansion level; EXPANDED turns on what Ads Manager calls Optimized Targeting (off b..."
+            ]
           },
           "bid_amount_local_micro": {
+            "description": "New bid in micros of the account currency; only with bid_strategy MAX or TARGET.",
             "type": "integer",
             "minimum": 0,
-            "maximum": 9007199254740991,
-            "description": "New bid in micros of the account currency; only with bid_strategy MAX or TARGET."
+            "maximum": 9007199254740991
           },
           "bid_strategy": {
+            "description": "New bidding strategy.",
             "type": "string",
             "enum": [
               "AUTO",
               "MAX",
               "TARGET"
-            ],
-            "description": "New bidding strategy."
+            ]
           },
           "categories": {
+            "description": "New comma-separated IAB content category IDs, e.g. IAB3-1,IAB19 (see list_iab_categories).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New comma-separated IAB content category IDs, e.g. IAB3-1,IAB19 (see list_iab_categories)."
+            "maxLength": 100000
           },
           "daily_budget_amount_local_micro": {
+            "description": "New line item daily budget in micros.",
             "type": "integer",
             "minimum": 0,
-            "maximum": 9007199254740991,
-            "description": "New line item daily budget in micros."
+            "maximum": 9007199254740991
           },
           "duration_in_days": {
+            "description": "New frequency_cap window (1, 7 or 30 days); set together with frequency_cap.",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "New frequency_cap window (1, 7 or 30 days); set together with frequency_cap."
+            "maximum": 9007199254740991
           },
           "end_time": {
+            "description": "New end time (ISO 8601).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New end time (ISO 8601)."
+            "maxLength": 100000
           },
           "entity_status": {
+            "description": "Set PAUSED to pause this ad group (the only pause path). Resume with activate_line_item.",
             "type": "string",
             "enum": [
               "PAUSED"
-            ],
-            "description": "Set PAUSED to pause this ad group (the only pause path). Resume with activate_line_item."
+            ]
           },
           "frequency_cap": {
+            "description": "New maximum times an ad can be delivered to a user within duration_in_days.",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "New maximum times an ad can be delivered to a user within duration_in_days."
+            "maximum": 9007199254740991
           },
           "goal": {
+            "description": "New optimization goal (e.g. ENGAGEMENT, LINK_CLICKS, SITE_VISITS, WEBSITE_CONVERSIONS, FOLLOWERS,...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New optimization goal (e.g. ENGAGEMENT, LINK_CLICKS, SITE_VISITS, WEBSITE_CONVERSIONS, FOLLOWERS,..."
+            "maxLength": 100000
           },
           "ios_app_store_identifier": {
+            "description": "New numeric Apple App Store ID of the promoted app, e.g. 333903271.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New numeric Apple App Store ID of the promoted app, e.g. 333903271."
+            "maxLength": 100000
           },
           "line_item_id": {
             "type": "string",
@@ -2830,11 +2801,12 @@
             "description": "Line item ID belonging to the selected X Ads account."
           },
           "name": {
+            "description": "New line item name (1-255 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New line item name (1-255 characters)."
+            "maxLength": 100000
           },
           "pay_by": {
+            "description": "New unit to pay by. Only settable for APP_INSTALLS (APP_CLICK or APP_INSTALL) and REACH (IMPRESSI...",
             "type": "string",
             "enum": [
               "APP_CLICK",
@@ -2847,45 +2819,43 @@
               "VIEW_3S_100PCT",
               "VIEW_6S",
               "VIDEO_START"
-            ],
-            "description": "New unit to pay by. Only settable for APP_INSTALLS (APP_CLICK or APP_INSTALL) and REACH (IMPRESSI..."
+            ]
           },
           "placements": {
+            "description": "New comma-separated placements, e.g. ALL_ON_TWITTER or TWITTER_TIMELINE,TWITTER_PROFILE. Valid va...",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New comma-separated placements, e.g. ALL_ON_TWITTER or TWITTER_TIMELINE,TWITTER_PROFILE. Valid va..."
+            "maxLength": 100000
           },
           "primary_web_event_tag": {
+            "description": "New website conversion tag (pixel) id; see list_web_event_tags.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New website conversion tag (pixel) id; see list_web_event_tags."
+            "maxLength": 100000
           },
           "standard_delivery": {
-            "type": "boolean",
-            "description": "true paces spend evenly through the day; false spends as fast as possible (accelerated delivery, ..."
+            "description": "true paces spend evenly through the day; false spends as fast as possible (accelerated delivery, ...",
+            "type": "boolean"
           },
           "start_time": {
+            "description": "New start time (ISO 8601).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "New start time (ISO 8601)."
+            "maxLength": 100000
           },
           "total_budget_amount_local_micro": {
+            "description": "New line item total budget in micros.",
             "type": "integer",
             "minimum": 0,
-            "maximum": 9007199254740991,
-            "description": "New line item total budget in micros."
+            "maximum": 9007199254740991
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "line_item_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2896,7 +2866,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2921,8 +2891,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -2943,8 +2913,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "line_item_id": {
@@ -2953,16 +2923,15 @@
             "description": "Line item ID belonging to the selected X Ads account."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "line_item_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -2973,7 +2942,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -2998,8 +2967,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3020,8 +2989,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "line_item_id": {
@@ -3035,9 +3004,9 @@
             "description": "Comma-separated post (tweet) IDs to promote (from list_account_posts or create_ad_post)."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
@@ -3045,7 +3014,6 @@
           "line_item_id",
           "tweet_ids"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3056,7 +3024,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3081,8 +3049,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3103,8 +3071,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "line_item_id": {
@@ -3113,14 +3081,14 @@
             "description": "Line item to add the criterion to."
           },
           "operator_type": {
+            "description": "Comparison operator. Sent as EQ when omitted (ads-api requires it); NE negates (exclude).",
             "type": "string",
             "enum": [
               "EQ",
               "NE",
               "GTE",
               "LT"
-            ],
-            "description": "Comparison operator. Sent as EQ when omitted (ads-api requires it); NE negates (exclude)."
+            ]
           },
           "targeting_type": {
             "type": "string",
@@ -3133,9 +3101,9 @@
             "description": "Value for the type: a targeting ID for LOCATION/INTEREST (look up via targeting search), a user I..."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
@@ -3144,7 +3112,6 @@
           "targeting_type",
           "targeting_value"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3155,7 +3122,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3180,8 +3147,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3202,8 +3169,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "targeting_criterion_id": {
@@ -3212,16 +3179,15 @@
             "description": "Targeting criterion ID belonging to the selected X Ads account."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "targeting_criterion_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3232,7 +3198,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3257,8 +3223,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3279,8 +3245,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "as_user_id": {
@@ -3289,75 +3255,74 @@
             "description": "User ID to post on behalf of (must be a promotable user of the account, e.g. the account's own ha..."
           },
           "card_uri": {
+            "description": "Card URI to attach (e.g. a website card).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Card URI to attach (e.g. a website card)."
+            "maxLength": 100000
           },
           "conversation_settings": {
+            "description": "Who can reply to the post (default EVERYONE).",
             "type": "string",
             "enum": [
               "EVERYONE",
               "FOLLOWING",
               "MENTIONED_USERS"
-            ],
-            "description": "Who can reply to the post (default EVERYONE)."
+            ]
           },
           "media_keys": {
+            "description": "Comma-separated media keys of pre-uploaded media to attach (required unless text is provided).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Comma-separated media keys of pre-uploaded media to attach (required unless text is provided)."
+            "maxLength": 100000
           },
           "text": {
+            "description": "Post text (required unless media_keys is provided).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Post text (required unless media_keys is provided)."
+            "maxLength": 100000
           },
           "trim_user": {
-            "type": "boolean",
-            "description": "Return only the author's user ID instead of the full user object in the response (default false)."
+            "description": "Return only the author's user ID instead of the full user object in the response (default false).",
+            "type": "boolean"
           },
           "tweet_mode": {
+            "description": "Response rendering mode (default compat).",
             "type": "string",
             "enum": [
               "compat",
               "extended"
-            ],
-            "description": "Response rendering mode (default compat)."
+            ]
           },
           "video_cta": {
+            "description": "Call-to-action button on an attached video; set the target URL with video_cta_value.",
             "type": "string",
             "enum": [
               "VISIT_SITE",
               "WATCH_NOW"
-            ],
-            "description": "Call-to-action button on an attached video; set the target URL with video_cta_value."
+            ]
           },
           "video_cta_value": {
+            "description": "Destination URL for the video_cta button; required when video_cta is set.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Destination URL for the video_cta button; required when video_cta is set."
+            "maxLength": 100000
           },
           "video_description": {
+            "description": "Description shown under an attached video (1-200 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Description shown under an attached video (1-200 characters)."
+            "maxLength": 100000
           },
           "video_title": {
+            "description": "Title shown under an attached video (1-70 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Title shown under an attached video (1-70 characters)."
+            "maxLength": 100000
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "as_user_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3368,7 +3333,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3393,8 +3358,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3415,14 +3380,12 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "components": {
             "type": "array",
-            "minItems": 2,
-            "maxItems": 2,
             "items": [
               {
                 "anyOf": [
@@ -3452,12 +3415,13 @@
                         "const": "SWIPEABLE_MEDIA"
                       },
                       "media_keys": {
+                        "minItems": 2,
+                        "maxItems": 6,
                         "type": "array",
                         "items": {
-                          "$ref": "#/properties/components/items/0/anyOf/0/properties/media_key"
-                        },
-                        "minItems": 2,
-                        "maxItems": 6
+                          "type": "string",
+                          "pattern": "^\\d+_\\d+$"
+                        }
                       }
                     },
                     "required": [
@@ -3489,8 +3453,8 @@
                       },
                       "url": {
                         "type": "string",
-                        "format": "uri",
-                        "maxLength": 2048
+                        "maxLength": 2048,
+                        "format": "uri"
                       }
                     },
                     "required": [
@@ -3508,6 +3472,9 @@
                 "additionalProperties": false
               }
             ],
+            "additionalItems": false,
+            "minItems": 2,
+            "maxItems": 2,
             "description": "Card component objects, rendered top to bottom."
           },
           "name": {
@@ -3516,9 +3483,9 @@
             "description": "Card name."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
@@ -3526,7 +3493,6 @@
           "components",
           "name"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3537,7 +3503,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3562,8 +3528,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3584,8 +3550,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "card_id": {
@@ -3594,16 +3560,15 @@
             "description": "Card ID belonging to the selected X Ads account."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "card_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3614,7 +3579,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3639,8 +3604,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3661,19 +3626,19 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "description": {
+            "description": "Video description, shown under the video. Videos only.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Video description, shown under the video. Videos only."
+            "maxLength": 100000
           },
           "file_name": {
+            "description": "Media file name (1-255 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Media file name (1-255 characters)."
+            "maxLength": 100000
           },
           "media_key": {
             "type": "string",
@@ -3681,31 +3646,30 @@
             "description": "Media key of an existing media asset (e.g. 13_875943225764098048). Required by the legacy API."
           },
           "name": {
+            "description": "Media asset name, shown in campaign setup UIs (1-100 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Media asset name, shown in campaign setup UIs (1-100 characters)."
+            "maxLength": 100000
           },
           "poster_media_key": {
+            "description": "Media key of an uploaded image to use as the video poster frame. Videos only.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Media key of an uploaded image to use as the video poster frame. Videos only."
+            "maxLength": 100000
           },
           "title": {
+            "description": "Video title, shown on the video itself. Videos only.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Video title, shown on the video itself. Videos only."
+            "maxLength": 100000
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "media_key"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3716,7 +3680,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3741,8 +3705,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3763,8 +3727,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "media_key": {
@@ -3773,16 +3737,15 @@
             "description": "Uploaded media key registered in the selected account's media library."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "media_key"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3793,7 +3756,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3818,8 +3781,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3840,19 +3803,19 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "description": {
+            "description": "Video description, shown under the video. Videos only.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Video description, shown under the video. Videos only."
+            "maxLength": 100000
           },
           "file_name": {
+            "description": "Media file name (1-255 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Media file name (1-255 characters)."
+            "maxLength": 100000
           },
           "media_key": {
             "type": "string",
@@ -3860,31 +3823,30 @@
             "description": "Uploaded media key registered in the selected account's media library."
           },
           "name": {
+            "description": "Media asset name, shown in campaign setup UIs (1-100 characters).",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Media asset name, shown in campaign setup UIs (1-100 characters)."
+            "maxLength": 100000
           },
           "poster_media_key": {
+            "description": "Media key of an uploaded image to use as the video poster frame. Videos only.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Media key of an uploaded image to use as the video poster frame. Videos only."
+            "maxLength": 100000
           },
           "title": {
+            "description": "Video title, shown on the video itself. Videos only.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Video title, shown on the video itself. Videos only."
+            "maxLength": 100000
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "media_key"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3895,7 +3857,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -3920,8 +3882,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -3942,46 +3904,45 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "click_window": {
+            "description": "Post-click attribution window in days: 1, 7, 14, 30, 60 or 90. Required by the legacy API.",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "Post-click attribution window in days: 1, 7, 14, 30, 60 or 90. Required by the legacy API."
+            "maximum": 9007199254740991
           },
           "name": {
+            "description": "Conversion event name, shown in campaign setup UIs. Required by the legacy API.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Conversion event name, shown in campaign setup UIs. Required by the legacy API."
+            "maxLength": 100000
           },
           "retargeting_enabled": {
-            "type": "boolean",
-            "description": "Whether users who trigger this tag are collected for retargeting. Required by the legacy API."
+            "description": "Whether users who trigger this tag are collected for retargeting. Required by the legacy API.",
+            "type": "boolean"
           },
           "type": {
+            "description": "Conversion type: SITE_VISIT, PURCHASE, DOWNLOAD, SIGN_UP or CUSTOM. Required by the legacy API.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Conversion type: SITE_VISIT, PURCHASE, DOWNLOAD, SIGN_UP or CUSTOM. Required by the legacy API."
+            "maxLength": 100000
           },
           "view_through_window": {
+            "description": "Post-view window in days: 0, 1, 7, 14, 30, 60 or 90; max click_window. Required by the legacy API.",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "Post-view window in days: 0, 1, 7, 14, 30, 60 or 90; max click_window. Required by the legacy API."
+            "maximum": 9007199254740991
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -3992,7 +3953,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -4017,8 +3978,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -4039,8 +4000,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "web_event_tag_id": {
@@ -4049,16 +4010,15 @@
             "description": "Website conversion event ID belonging to the selected X Ads account."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "web_event_tag_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -4069,7 +4029,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -4094,8 +4054,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -4116,26 +4076,27 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "click_window": {
+            "description": "Post-click attribution window in days: 1, 7, 14, 30, 60 or 90.",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "Post-click attribution window in days: 1, 7, 14, 30, 60 or 90."
+            "maximum": 9007199254740991
           },
           "name": {
+            "description": "Conversion event name, shown in campaign setup UIs.",
             "type": "string",
-            "maxLength": 100000,
-            "description": "Conversion event name, shown in campaign setup UIs."
+            "maxLength": 100000
           },
           "retargeting_enabled": {
-            "type": "boolean",
-            "description": "Whether users who trigger this tag are collected for retargeting."
+            "description": "Whether users who trigger this tag are collected for retargeting.",
+            "type": "boolean"
           },
           "type": {
+            "description": "Conversion type.",
             "type": "string",
             "enum": [
               "SITE_VISIT",
@@ -4143,14 +4104,13 @@
               "DOWNLOAD",
               "SIGN_UP",
               "CUSTOM"
-            ],
-            "description": "Conversion type."
+            ]
           },
           "view_through_window": {
+            "description": "Post-view window in days: 0, 1, 7, 14, 30, 60 or 90; max click_window.",
             "type": "integer",
             "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "description": "Post-view window in days: 0, 1, 7, 14, 30, 60 or 90; max click_window."
+            "maximum": 9007199254740991
           },
           "web_event_tag_id": {
             "type": "string",
@@ -4158,16 +4118,15 @@
             "description": "Website conversion event ID belonging to the selected X Ads account."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact change after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact change after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
           "account_id",
           "web_event_tag_id"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -4178,7 +4137,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -4203,8 +4162,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -4225,8 +4184,8 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account from X_ADS_ACCOUNT_IDS. Register the resulting media in this account's media library."
           },
           "media_base64": {
@@ -4247,9 +4206,9 @@
             "description": "MIME type matching the actual uploaded file bytes."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true uploads after human confirmation, potentially charging X developer API credits.",
             "default": false,
-            "description": "False previews only; true uploads after human confirmation, potentially charging X developer API credits."
+            "type": "boolean"
           }
         },
         "required": [
@@ -4257,7 +4216,6 @@
           "media_base64",
           "media_type"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -4268,7 +4226,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -4293,8 +4251,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -4315,14 +4273,14 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "campaign_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "Campaign ID belonging to the selected X Ads account."
           },
           "name": {
@@ -4332,9 +4290,9 @@
             "description": "New name, 1 to 255 characters. This is the only thing the call changes."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact rename after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact rename after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
@@ -4342,7 +4300,6 @@
           "campaign_id",
           "name"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -4353,7 +4310,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -4378,8 +4335,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,
@@ -4400,14 +4357,14 @@
         "properties": {
           "account_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "X Ads account ID from X_ADS_ACCOUNT_IDS."
           },
           "line_item_id": {
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]+$",
             "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9]+$",
             "description": "Line item (ad group) ID belonging to the selected X Ads account."
           },
           "name": {
@@ -4417,9 +4374,9 @@
             "description": "New name, 1 to 255 characters. This is the only thing the call changes."
           },
           "confirm": {
-            "type": "boolean",
+            "description": "False previews only; true applies this exact rename after explicit human confirmation.",
             "default": false,
-            "description": "False previews only; true applies this exact rename after explicit human confirmation."
+            "type": "boolean"
           }
         },
         "required": [
@@ -4427,7 +4384,6 @@
           "line_item_id",
           "name"
         ],
-        "additionalProperties": false,
         "$schema": "http://json-schema.org/draft-07/schema#"
       },
       "outputSchema": {
@@ -4438,7 +4394,7 @@
               {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": true
+                "additionalProperties": {}
               },
               {
                 "type": "array",
@@ -4463,8 +4419,8 @@
         "required": [
           "result"
         ],
-        "additionalProperties": false,
-        "$schema": "http://json-schema.org/draft-07/schema#"
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
       },
       "annotations": {
         "readOnlyHint": false,

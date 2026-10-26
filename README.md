@@ -29,18 +29,18 @@ Run locally with your own platform credentials and a client that supports stdio 
 ## What's new
 
 <!-- release-history:start -->
-**[v1.1.0: Campaign and line item rename](https://github.com/get-mcp-ads/x-ads-mcp-server/releases/tag/v1.1.0) · October 23, 2026**
+**[v1.1.1: Zod 4 security update](https://github.com/get-mcp-ads/x-ads-mcp-server/releases/tag/v1.1.1) · October 26, 2026**
 
-- Add `x_ads_rename_campaign` and `x_ads_rename_line_item`. Each previews by default, checks the account allowlist and the `ads.write` scope, then sends only `account_id`, the entity ID and `name` to X's `update_campaign` or `update_line_item`.
-- Declare both X endpoints in `src/hosts.ts`. New tests fail on a fetch without redirect handling or a timeout, and on any other host in `src/`.
-- Add `test/readme-accuracy.test.mjs`: every tool and the `x-ads://guide` resource are cited in the README, nothing else is, the counts match the code, and published prose has no em dash.
-- Update `@modelcontextprotocol/sdk` to 1.32.1 and regenerate `package-lock.json`. Require Node.js 22.23.4, 24.22.1, 26.12.1 or newer, and warn on stderr at startup on an older release. CI covers Node 22, 24 and 26.
-- Publish from a version tag with the new `release.yml`: npm with provenance, the GitHub release, then the MCP Registry. Dependabot now proposes weekly npm and monthly GitHub Actions updates.
+- Update `zod` to 4.6.7. Every Zod release before 4.6.6 is covered by the high-severity advisory GHSA-mrhx-c7xc-m3w5: validating an oversized constrained collection can exhaust memory, and no Zod 3 release carries the fix. `npm audit --omit=dev` reports no vulnerability again.
+- Keep the Zod 3 validation behaviour. A parameter default is still validated and completed before use, so an omitted object must still supply its required fields.
+- Keep each parameter's own description when the parameter is optional or has a default. Zod 4 stores a description on the wrapped schema only, so the shared fallback description could otherwise replace it.
+- Tool names, parameters and descriptions published over MCP are unchanged. `server-card.json` is regenerated with Zod 4's JSON Schema output, which spells some constraints differently.
 
 **Earlier releases**
 
 | Version | Date | Highlights |
 | --- | --- | --- |
+| 1.1.0 | October 23, 2026 | Campaign and line item rename |
 | 1.0.1 | September 23, 2026 | Public repository restored |
 | 1.0.0 | September 20, 2026 | First standalone release |
 
@@ -62,7 +62,7 @@ Read the current tool schemas before reusing saved arguments. Writes remain opti
 This is a GitHub source release. npm and MCP Registry versions are published separately. The commands below select this exact version.
 
 ```bash
-git clone --branch v1.1.0 --depth 1 https://github.com/get-mcp-ads/x-ads-mcp-server.git
+git clone --branch v1.1.1 --depth 1 https://github.com/get-mcp-ads/x-ads-mcp-server.git
 cd x-ads-mcp-server
 npm ci
 npm run build

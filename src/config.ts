@@ -3,7 +3,7 @@ const schema = z.object({
   accessToken: z.string().min(1, "X_ADS_ACCESS_TOKEN is required"),
   allowedAccountIds: z.array(z.string().regex(/^[A-Za-z0-9]{1,64}$/)).min(1).max(200),
   scope: z.string().refine(s => s.split(" ").includes("ads.read"), "X_ADS_SCOPES must include ads.read"),
-  enableWrites: z.boolean().default(false),
+  enableWrites: z.boolean().prefault(false),
 });
 export type XConfig = z.infer<typeof schema>;
 export function validateConfig(value: unknown): XConfig {
