@@ -1,0 +1,1702 @@
+[
+  {
+    "description": "List the ads accounts the authenticated user can access",
+    "inputSchema": {
+      "properties": {
+        "account_ids": {
+          "description": "Comma-separated account IDs to fetch specific records (max 200).",
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "q": {
+          "description": "Search by account name (1-255 characters).",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted accounts (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "name": "list_ads_accounts",
+    "write": false
+  },
+  {
+    "description": "List campaigns for an account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_ids": {
+          "description": "Comma-separated campaign IDs to scope the response to.",
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "funding_instrument_ids": {
+          "description": "Comma-separated funding instrument IDs to scope the results to (max 200).",
+          "type": "string"
+        },
+        "q": {
+          "description": "Search by campaign name (1-255 characters).",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted campaigns in the response (default false).",
+          "type": "boolean"
+        },
+        "with_draft": {
+          "description": "Include draft campaigns in the response (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "list_campaigns",
+    "write": false
+  },
+  {
+    "description": "Create a campaign in an ads account. The campaign is ALWAYS created with entity_status PAUSED \u2014 it cannot serve or spend until explicitly activated with activate_campaign. Campaigns are always created with budget_optimization LINE_ITEM (the only mode ads-api still supports), so budgets are NOT set here: set daily_budget_amount_local_micro on each line item via create_line_item. Schedule (start_time/end_time) and pacing (standard_delivery) also live on line items, not campaigns, in ads-api v12.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "funding_instrument_id": {
+          "description": "Funding instrument to bill this campaign to (from list_funding_instruments; must have able_to_fun...",
+          "type": "string"
+        },
+        "name": {
+          "description": "Campaign name (1-255 characters).",
+          "type": "string"
+        },
+        "purchase_order_number": {
+          "description": "Booking reference / PO number carried onto invoices for invoice-billed accounts (max 50 characters).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "funding_instrument_id",
+        "name"
+      ],
+      "type": "object"
+    },
+    "name": "create_campaign",
+    "write": true
+  },
+  {
+    "description": "Get a single campaign by ID",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_id": {
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include the campaign even if soft-deleted (default false).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "campaign_id"
+      ],
+      "type": "object"
+    },
+    "name": "get_campaign",
+    "write": false
+  },
+  {
+    "description": "Rename a campaign or pause it (entity_status=PAUSED). This tool can pause but CANNOT activate \u2014 use activate_campaign to make a campaign eligible to spend. Budgets and schedule live on line items in ads-api v12: use update_line_item to change them.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_id": {
+          "type": "string"
+        },
+        "entity_status": {
+          "description": "Only PAUSED is accepted (pauses the campaign). Activation is a separate explicit action via activ...",
+          "enum": [
+            "PAUSED"
+          ],
+          "type": "string"
+        },
+        "funding_instrument_id": {
+          "description": "Move the campaign to a different funding instrument (from list_funding_instruments; must have abl...",
+          "type": "string"
+        },
+        "name": {
+          "description": "New campaign name (1-255 characters).",
+          "type": "string"
+        },
+        "purchase_order_number": {
+          "description": "New booking reference / PO number carried onto invoices for invoice-billed accounts (max 50 chara...",
+          "type": "string"
+        },
+        "standard_delivery": {
+          "description": "true paces spend evenly through the day; false spends as fast as possible (accelerated delivery).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "campaign_id"
+      ],
+      "type": "object"
+    },
+    "name": "update_campaign",
+    "write": true
+  },
+  {
+    "description": "Activate a campaign (set entity_status=ACTIVE). This makes the campaign eligible to serve ads and SPEND REAL MONEY once its line items are also active. This is the only tool that can activate a campaign; confirm with the advertiser before calling it.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "campaign_id"
+      ],
+      "type": "object"
+    },
+    "name": "activate_campaign",
+    "write": true
+  },
+  {
+    "description": "List funding instruments (payment sources) for an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "funding_instrument_ids": {
+          "description": "Comma-separated funding instrument IDs to fetch specific records (max 200).",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted funding instruments (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "list_funding_instruments",
+    "write": false
+  },
+  {
+    "description": "List line items (ad groups) for an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_ids": {
+          "description": "Comma-separated campaign IDs to scope the line items to.",
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "funding_instrument_ids": {
+          "description": "Comma-separated funding instrument IDs to scope the results to (max 200).",
+          "type": "string"
+        },
+        "line_item_ids": {
+          "description": "Comma-separated line item IDs to fetch specific records (max 200).",
+          "type": "string"
+        },
+        "q": {
+          "description": "Search by line item name (1-255 characters).",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted line items in the response (default false).",
+          "type": "boolean"
+        },
+        "with_draft": {
+          "description": "Include line items of draft campaigns in the response (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "list_line_items",
+    "write": false
+  },
+  {
+    "description": "Create a line item (ad group) under a campaign. The line item is ALWAYS created with entity_status PAUSED \u2014 it cannot serve or spend until explicitly activated with activate_line_item. For website conversion campaigns, set goal=WEBSITE_CONVERSIONS and primary_web_event_tag to a web event tag (pixel) id from list_web_event_tags.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "advertiser_domain": {
+          "description": "Website domain of the advertiser (no protocol), e.g. x.com; required when placements includes PUB...",
+          "type": "string"
+        },
+        "android_app_store_identifier": {
+          "description": "Google Play package name of the promoted app, e.g. com.example.app; for APP_INSTALLS / APP_ENGAGE...",
+          "type": "string"
+        },
+        "audience_expansion": {
+          "description": "Audience expansion level. EXPANDED is what Ads Manager calls Optimized Targeting: serving may ext...",
+          "enum": [
+            "BROAD",
+            "DEFINED",
+            "EXPANDED"
+          ],
+          "type": "string"
+        },
+        "bid_amount_local_micro": {
+          "description": "Bid in micros of the account currency; only with bid_strategy MAX or TARGET.",
+          "type": "integer"
+        },
+        "bid_strategy": {
+          "description": "Bidding strategy. AUTO (default) needs no bid amount; MAX/TARGET require bid_amount_local_micro.",
+          "enum": [
+            "AUTO",
+            "MAX",
+            "TARGET"
+          ],
+          "type": "string"
+        },
+        "campaign_id": {
+          "description": "Campaign to create the line item under.",
+          "type": "string"
+        },
+        "categories": {
+          "description": "Comma-separated IAB content category IDs for the advertiser, e.g. IAB3-1,IAB19 (see list_iab_cate...",
+          "type": "string"
+        },
+        "daily_budget_amount_local_micro": {
+          "description": "Daily budget for this line item (ad group) in micros of the account currency (e.g. 50000000 = $50...",
+          "type": "integer"
+        },
+        "duration_in_days": {
+          "description": "Window over which frequency_cap applies (1, 7 or 30 days); set together with frequency_cap.",
+          "type": "integer"
+        },
+        "end_time": {
+          "description": "Line item end time (ISO 8601). Omit for no end.",
+          "type": "string"
+        },
+        "frequency_cap": {
+          "description": "Maximum times an ad can be delivered to a user within duration_in_days; only for REACH, ENGAGEMEN...",
+          "type": "integer"
+        },
+        "goal": {
+          "description": "Optimization goal (e.g. ENGAGEMENT, LINK_CLICKS, SITE_VISITS, WEBSITE_CONVERSIONS, FOLLOWERS, APP...",
+          "type": "string"
+        },
+        "ios_app_store_identifier": {
+          "description": "Numeric Apple App Store ID of the promoted app, e.g. 333903271; for APP_INSTALLS / APP_ENGAGEMENT...",
+          "type": "string"
+        },
+        "name": {
+          "description": "Line item name (1-255 characters).",
+          "type": "string"
+        },
+        "objective": {
+          "description": "Campaign objective for this line item.",
+          "enum": [
+            "APP_ENGAGEMENTS",
+            "APP_INSTALLS",
+            "ENGAGEMENTS",
+            "FOLLOWERS",
+            "PREROLL_VIEWS",
+            "REACH",
+            "VIDEO_VIEWS",
+            "WEBSITE_CLICKS"
+          ],
+          "type": "string"
+        },
+        "pay_by": {
+          "description": "Unit to pay by. Only settable for APP_INSTALLS (APP_CLICK or APP_INSTALL) and REACH (IMPRESSION) ...",
+          "enum": [
+            "APP_CLICK",
+            "APP_INSTALL",
+            "ENGAGEMENT",
+            "FOLLOW",
+            "IMPRESSION",
+            "LINK_CLICK",
+            "VIEW",
+            "VIEW_3S_100PCT",
+            "VIEW_6S",
+            "VIDEO_START"
+          ],
+          "type": "string"
+        },
+        "placements": {
+          "description": "Comma-separated placements, e.g. ALL_ON_TWITTER or TWITTER_TIMELINE,TWITTER_PROFILE. Valid values...",
+          "type": "string"
+        },
+        "primary_web_event_tag": {
+          "description": "Website conversion tag (pixel) id, required when goal=WEBSITE_CONVERSIONS; see list_web_event_tags.",
+          "type": "string"
+        },
+        "product_type": {
+          "description": "Promoted product type. ads-api requires it on every new line item; sent as PROMOTED_TWEETS (post-...",
+          "enum": [
+            "PROMOTED_TWEETS",
+            "PROMOTED_ACCOUNT",
+            "MEDIA"
+          ],
+          "type": "string"
+        },
+        "standard_delivery": {
+          "description": "true (default) paces spend evenly through the day; false spends as fast as possible (accelerated ...",
+          "type": "boolean"
+        },
+        "start_time": {
+          "description": "Line item start time (ISO 8601, e.g. 2026-08-01T00:00:00Z). ads-api requires it on every new line...",
+          "type": "string"
+        },
+        "total_budget_amount_local_micro": {
+          "description": "Line item total budget in micros of the account currency.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "account_id",
+        "campaign_id",
+        "objective",
+        "placements",
+        "daily_budget_amount_local_micro",
+        "start_time"
+      ],
+      "type": "object"
+    },
+    "name": "create_line_item",
+    "write": true
+  },
+  {
+    "description": "Get a single line item by ID",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "line_item_id": {
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include the line item even if soft-deleted (default false).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "line_item_id"
+      ],
+      "type": "object"
+    },
+    "name": "get_line_item",
+    "write": false
+  },
+  {
+    "description": "Update a line item's bid, budget, name, schedule, placements, goal, pacing, audience expansion (set audience_expansion=EXPANDED to turn on Optimized Targeting) or entity_status. Set entity_status=PAUSED to pause this ad group; pausing is only possible here, and activate_line_item is the only way to make it eligible to spend again.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "advertiser_domain": {
+          "description": "New website domain of the advertiser (no protocol); required when placements includes PUBLISHER_N...",
+          "type": "string"
+        },
+        "android_app_store_identifier": {
+          "description": "New Google Play package name of the promoted app, e.g. com.example.app.",
+          "type": "string"
+        },
+        "audience_expansion": {
+          "description": "New audience expansion level; EXPANDED turns on what Ads Manager calls Optimized Targeting (off b...",
+          "enum": [
+            "BROAD",
+            "DEFINED",
+            "EXPANDED"
+          ],
+          "type": "string"
+        },
+        "bid_amount_local_micro": {
+          "description": "New bid in micros of the account currency; only with bid_strategy MAX or TARGET.",
+          "type": "integer"
+        },
+        "bid_strategy": {
+          "description": "New bidding strategy.",
+          "enum": [
+            "AUTO",
+            "MAX",
+            "TARGET"
+          ],
+          "type": "string"
+        },
+        "categories": {
+          "description": "New comma-separated IAB content category IDs, e.g. IAB3-1,IAB19 (see list_iab_categories).",
+          "type": "string"
+        },
+        "daily_budget_amount_local_micro": {
+          "description": "New line item daily budget in micros.",
+          "type": "integer"
+        },
+        "duration_in_days": {
+          "description": "New frequency_cap window (1, 7 or 30 days); set together with frequency_cap.",
+          "type": "integer"
+        },
+        "end_time": {
+          "description": "New end time (ISO 8601).",
+          "type": "string"
+        },
+        "entity_status": {
+          "description": "Set PAUSED to pause this ad group (the only pause path). Resume with activate_line_item.",
+          "enum": [
+            "PAUSED"
+          ],
+          "type": "string"
+        },
+        "frequency_cap": {
+          "description": "New maximum times an ad can be delivered to a user within duration_in_days.",
+          "type": "integer"
+        },
+        "goal": {
+          "description": "New optimization goal (e.g. ENGAGEMENT, LINK_CLICKS, SITE_VISITS, WEBSITE_CONVERSIONS, FOLLOWERS,...",
+          "type": "string"
+        },
+        "ios_app_store_identifier": {
+          "description": "New numeric Apple App Store ID of the promoted app, e.g. 333903271.",
+          "type": "string"
+        },
+        "line_item_id": {
+          "type": "string"
+        },
+        "name": {
+          "description": "New line item name (1-255 characters).",
+          "type": "string"
+        },
+        "pay_by": {
+          "description": "New unit to pay by. Only settable for APP_INSTALLS (APP_CLICK or APP_INSTALL) and REACH (IMPRESSI...",
+          "enum": [
+            "APP_CLICK",
+            "APP_INSTALL",
+            "ENGAGEMENT",
+            "FOLLOW",
+            "IMPRESSION",
+            "LINK_CLICK",
+            "VIEW",
+            "VIEW_3S_100PCT",
+            "VIEW_6S",
+            "VIDEO_START"
+          ],
+          "type": "string"
+        },
+        "placements": {
+          "description": "New comma-separated placements, e.g. ALL_ON_TWITTER or TWITTER_TIMELINE,TWITTER_PROFILE. Valid va...",
+          "type": "string"
+        },
+        "primary_web_event_tag": {
+          "description": "New website conversion tag (pixel) id; see list_web_event_tags.",
+          "type": "string"
+        },
+        "standard_delivery": {
+          "description": "true paces spend evenly through the day; false spends as fast as possible (accelerated delivery, ...",
+          "type": "boolean"
+        },
+        "start_time": {
+          "description": "New start time (ISO 8601).",
+          "type": "string"
+        },
+        "total_budget_amount_local_micro": {
+          "description": "New line item total budget in micros.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "account_id",
+        "line_item_id"
+      ],
+      "type": "object"
+    },
+    "name": "update_line_item",
+    "write": true
+  },
+  {
+    "description": "Activate a line item (set entity_status=ACTIVE). Once its parent campaign is also active, the line item becomes eligible to serve ads and SPEND REAL MONEY. This is the only tool that can activate a line item; confirm with the advertiser before calling it.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "line_item_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "line_item_id"
+      ],
+      "type": "object"
+    },
+    "name": "activate_line_item",
+    "write": true
+  },
+  {
+    "description": "List promoted posts (promoted tweets) for an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "line_item_ids": {
+          "description": "Comma-separated line item IDs to scope the promoted posts to.",
+          "type": "string"
+        },
+        "promoted_tweet_ids": {
+          "description": "Comma-separated promoted post IDs to fetch specific records (max 200).",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted promoted posts in the response (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "list_promoted_posts",
+    "write": false
+  },
+  {
+    "description": "Attach post(s) to a line item as its ad creative(s). Promoted posts have no entity_status of their own \u2014 they cannot serve while the parent line item or campaign is paused. The response carries each post's approval_status (ads enter review before serving).",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "line_item_id": {
+          "description": "Line item to attach the post(s) to.",
+          "type": "string"
+        },
+        "tweet_ids": {
+          "description": "Comma-separated post (tweet) IDs to promote (from list_account_posts or create_ad_post).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "line_item_id",
+        "tweet_ids"
+      ],
+      "type": "object"
+    },
+    "name": "promote_post",
+    "write": true
+  },
+  {
+    "description": "List targeting criteria for an ads account's line items",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "lang": {
+          "description": "BCP-47 language code; adds a localized_name response attribute for localizable criteria.",
+          "type": "string"
+        },
+        "line_item_ids": {
+          "description": "Comma-separated line item IDs to scope the targeting criteria to (the legacy API requires this fi...",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "targeting_criterion_ids": {
+          "description": "Comma-separated targeting criterion IDs to fetch specific records (max 200).",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted targeting criteria (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "line_item_ids"
+      ],
+      "type": "object"
+    },
+    "name": "list_targeting_criteria",
+    "write": false
+  },
+  {
+    "description": "Add one targeting criterion to a line item (call once per criterion). A line item with no criteria serves broad \u2014 that is allowed, not an error.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "line_item_id": {
+          "description": "Line item to add the criterion to.",
+          "type": "string"
+        },
+        "operator_type": {
+          "description": "Comparison operator. Sent as EQ when omitted (ads-api requires it); NE negates (exclude).",
+          "enum": [
+            "EQ",
+            "NE",
+            "GTE",
+            "LT"
+          ],
+          "type": "string"
+        },
+        "targeting_type": {
+          "description": "Criterion type, e.g. LOCATION, INTEREST, BROAD_KEYWORD, PHRASE_KEYWORD, EXACT_KEYWORD, FOLLOWERS_...",
+          "type": "string"
+        },
+        "targeting_value": {
+          "description": "Value for the type: a targeting ID for LOCATION/INTEREST (look up via targeting search), a user I...",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "line_item_id",
+        "targeting_type",
+        "targeting_value"
+      ],
+      "type": "object"
+    },
+    "name": "add_targeting_criterion",
+    "write": true
+  },
+  {
+    "description": "Remove a targeting criterion from its line item (undo a targeting mistake). Criterion IDs come from list_targeting_criteria or the add response.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "targeting_criterion_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "targeting_criterion_id"
+      ],
+      "type": "object"
+    },
+    "name": "remove_targeting",
+    "write": true
+  },
+  {
+    "description": "Compose a promoted-only (\"nullcasted\") post to use as an ad creative. The post never appears on the author's profile or followers' timelines and spends nothing by itself \u2014 attach it to a line item with promote_post.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "as_user_id": {
+          "description": "User ID to post on behalf of (must be a promotable user of the account, e.g. the account's own ha...",
+          "type": "string"
+        },
+        "card_uri": {
+          "description": "Card URI to attach (e.g. a website card).",
+          "type": "string"
+        },
+        "conversation_settings": {
+          "description": "Who can reply to the post (default EVERYONE).",
+          "enum": [
+            "EVERYONE",
+            "FOLLOWING",
+            "MENTIONED_USERS"
+          ],
+          "type": "string"
+        },
+        "media_keys": {
+          "description": "Comma-separated media keys of pre-uploaded media to attach (required unless text is provided).",
+          "type": "string"
+        },
+        "text": {
+          "description": "Post text (required unless media_keys is provided).",
+          "type": "string"
+        },
+        "trim_user": {
+          "description": "Return only the author's user ID instead of the full user object in the response (default false).",
+          "type": "boolean"
+        },
+        "tweet_mode": {
+          "description": "Response rendering mode (default compat).",
+          "enum": [
+            "compat",
+            "extended"
+          ],
+          "type": "string"
+        },
+        "video_cta": {
+          "description": "Call-to-action button on an attached video; set the target URL with video_cta_value.",
+          "enum": [
+            "VISIT_SITE",
+            "WATCH_NOW"
+          ],
+          "type": "string"
+        },
+        "video_cta_value": {
+          "description": "Destination URL for the video_cta button; required when video_cta is set.",
+          "type": "string"
+        },
+        "video_description": {
+          "description": "Description shown under an attached video (1-200 characters).",
+          "type": "string"
+        },
+        "video_title": {
+          "description": "Title shown under an attached video (1-70 characters).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "as_user_id"
+      ],
+      "type": "object"
+    },
+    "name": "create_ad_post",
+    "write": true
+  },
+  {
+    "description": "List posts (tweets) usable for promotion by an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "include_mentions_and_replies": {
+          "description": "Include mentions and replies in the results (default false).",
+          "type": "boolean"
+        },
+        "timeline_type": {
+          "description": "Scope to promoted-only, organic or all posts (default NULLCAST).",
+          "enum": [
+            "ALL",
+            "NULLCAST",
+            "ORGANIC"
+          ],
+          "type": "string"
+        },
+        "trim_user": {
+          "description": "Return only the author's user ID instead of the full user object (default false).",
+          "type": "boolean"
+        },
+        "tweet_ids": {
+          "description": "Comma-separated post (tweet) IDs to scope the response to.",
+          "type": "string"
+        },
+        "tweet_type": {
+          "description": "Post type to list (the legacy API requires this filter).",
+          "enum": [
+            "PUBLISHED",
+            "SCHEDULED",
+            "DRAFT"
+          ],
+          "type": "string"
+        },
+        "user_id": {
+          "description": "Promotable user whose posts to list (defaults to the account's own user).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "tweet_type"
+      ],
+      "type": "object"
+    },
+    "name": "list_account_posts",
+    "write": false
+  },
+  {
+    "description": "List the website conversion event tags (pixels) in an ads account; a tag's id is what a conversion line item takes as its primary_web_event_tag",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (default 200, max 1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "web_event_tag_ids": {
+          "description": "Comma-separated web event tag IDs to fetch specific records (max 200).",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted records (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "list_web_event_tags",
+    "write": false
+  },
+  {
+    "description": "List valid placement combinations per line item product type",
+    "inputSchema": {
+      "properties": {
+        "product_type": {
+          "description": "Restrict placements to one product type.",
+          "enum": [
+            "MEDIA",
+            "PROMOTED_ACCOUNT",
+            "PROMOTED_TWEETS"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "name": "list_line_item_placements",
+    "write": false
+  },
+  {
+    "description": "Get synchronous analytics (impressions, engagements, spend) for an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "end_time": {
+          "description": "ISO 8601 end of the metrics window (exclusive).",
+          "type": "string"
+        },
+        "entity": {
+          "description": "Entity type to fetch metrics for.",
+          "enum": [
+            "ACCOUNT",
+            "CAMPAIGN",
+            "FUNDING_INSTRUMENT",
+            "LINE_ITEM",
+            "MEDIA_CREATIVE",
+            "PROMOTED_ACCOUNT",
+            "PROMOTED_TWEET",
+            "ORGANIC_TWEET"
+          ],
+          "type": "string"
+        },
+        "entity_ids": {
+          "description": "Comma-separated IDs of the entities to fetch metrics for (max 20).",
+          "type": "string"
+        },
+        "granularity": {
+          "description": "Granularity of the returned time series.",
+          "enum": [
+            "DAY",
+            "HOUR",
+            "TOTAL"
+          ],
+          "type": "string"
+        },
+        "metric_groups": {
+          "description": "Comma-separated metric groups, e.g. ENGAGEMENT,BILLING,VIDEO (max 10; MOBILE_CONVERSION groups mu...",
+          "type": "string"
+        },
+        "placement": {
+          "description": "Placement to scope the metrics to.",
+          "enum": [
+            "ALL_ON_TWITTER",
+            "PUBLISHER_NETWORK"
+          ],
+          "type": "string"
+        },
+        "start_time": {
+          "description": "ISO 8601 start of the metrics window, e.g. 2026-07-01T00:00:00Z.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "entity",
+        "entity_ids",
+        "start_time",
+        "end_time",
+        "granularity",
+        "metric_groups",
+        "placement"
+      ],
+      "type": "object"
+    },
+    "name": "get_account_stats",
+    "write": false
+  },
+  {
+    "description": "List which ads entities had metrics change in a time window (use before requesting account stats)",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_ids": {
+          "description": "Comma-separated campaign IDs to scope the check to (max 200; exclusive with the other ids filters).",
+          "type": "string"
+        },
+        "end_time": {
+          "description": "ISO 8601 end of the activity window (exclusive); must be a whole hour (minutes and seconds 0).",
+          "type": "string"
+        },
+        "entity": {
+          "description": "Entity type to check for metric activity.",
+          "enum": [
+            "CAMPAIGN",
+            "FUNDING_INSTRUMENT",
+            "LINE_ITEM",
+            "MEDIA_CREATIVE",
+            "PROMOTED_ACCOUNT",
+            "PROMOTED_TWEET"
+          ],
+          "type": "string"
+        },
+        "funding_instrument_ids": {
+          "description": "Comma-separated funding instrument IDs to scope the check to (max 200; exclusive with the other i...",
+          "type": "string"
+        },
+        "line_item_ids": {
+          "description": "Comma-separated line item IDs to scope the check to (max 200; exclusive with the other ids filters).",
+          "type": "string"
+        },
+        "start_time": {
+          "description": "ISO 8601 start of the activity window; must be a whole hour (minutes and seconds 0).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "entity",
+        "start_time",
+        "end_time"
+      ],
+      "type": "object"
+    },
+    "name": "get_active_entities",
+    "write": false
+  },
+  {
+    "description": "Get reach and average-frequency metrics for campaigns",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_ids": {
+          "description": "Comma-separated campaign IDs to fetch reach for (max 20).",
+          "type": "string"
+        },
+        "end_time": {
+          "description": "ISO 8601 end of the metrics window (exclusive); must be in the past (a future end_time is rejected).",
+          "type": "string"
+        },
+        "start_time": {
+          "description": "ISO 8601 start of the metrics window.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "campaign_ids",
+        "start_time",
+        "end_time"
+      ],
+      "type": "object"
+    },
+    "name": "get_campaign_reach",
+    "write": false
+  },
+  {
+    "description": "Search targetable interest categories by name. Use this to find the targeting_value IDs required by add_targeting_criterion for INTEREST-type criteria.",
+    "inputSchema": {
+      "properties": {
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "q": {
+          "description": "Free-text interest name to search for, e.g. \"motorsports\". Omit to list interests unfiltered.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "name": "search_targeting_interests",
+    "write": false
+  },
+  {
+    "description": "Search targetable locations by name. Use this to find the targeting_value IDs required by add_targeting_criterion for LOCATION-type criteria.",
+    "inputSchema": {
+      "properties": {
+        "count": {
+          "description": "Number of records to return per page (1-1000).",
+          "type": "integer"
+        },
+        "country_code": {
+          "description": "Two-letter ISO country code to scope results to, e.g. US.",
+          "type": "string"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "location_type": {
+          "description": "Scope results to one location granularity.",
+          "enum": [
+            "COUNTRIES",
+            "REGIONS",
+            "METROS",
+            "CITIES",
+            "POSTAL_CODES"
+          ],
+          "type": "string"
+        },
+        "q": {
+          "description": "Free-text location name to search for, e.g. \"united states\" or \"london\". Omit to list locations u...",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "name": "search_targeting_locations",
+    "write": false
+  },
+  {
+    "description": "List the cards in an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "card_ids": {
+          "description": "Comma-separated card IDs to fetch specific cards (max 200).",
+          "type": "string"
+        },
+        "card_types": {
+          "description": "Comma-separated unified card types to filter by, e.g. IMAGE_WEBSITE, VIDEO_WEBSITE, IMAGE_APP, VI...",
+          "type": "string"
+        },
+        "card_uris": {
+          "description": "Comma-separated card URIs to fetch specific cards (max 200).",
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (default 100, max 200).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "include_legacy_cards": {
+          "description": "Include legacy (non-unified) cards in the response (default false).",
+          "type": "boolean"
+        },
+        "q": {
+          "description": "Search query matching against the card name.",
+          "type": "string"
+        },
+        "sort_by": {
+          "description": "Sort order as attribute-direction, e.g. created_at-asc or updated_at-desc.",
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include soft-deleted cards (default false).",
+          "type": "boolean"
+        },
+        "with_total_count": {
+          "description": "Include the total_count response attribute (default false; exclusive with cursor).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "list_cards",
+    "write": false
+  },
+  {
+    "description": "Create a card from a JSON components payload. Cards are immutable through this API (there is no update tool) \u2014 to change a card, create a new one and promote a new post that uses the new card_uri.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "components": {
+          "description": "Card component objects, rendered top to bottom.",
+          "items": {
+            "properties": {
+              "type": {
+                "description": "Component kind: MEDIA, SWIPEABLE_MEDIA, BUTTON, or DETAILS; the remaining fields vary by kind.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Card name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "create_card",
+    "write": true
+  },
+  {
+    "description": "Delete a card from an ads account. Deleting a card that a live promoted post references leaves that post's card dangling (posts are immutable) \u2014 to swap a live ad's card, create the new card, create a new ad post with its card_uri, promote it, then pause the old ad before deleting the old card.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "card_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "card_id"
+      ],
+      "type": "object"
+    },
+    "name": "delete_card",
+    "write": true
+  },
+  {
+    "description": "Get a single card by ID",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "card_id": {
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include the card even if soft-deleted (default false).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "card_id"
+      ],
+      "type": "object"
+    },
+    "name": "get_card",
+    "write": false
+  },
+  {
+    "description": "List the media library objects in an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of records to return per page (default 20, max 50).",
+          "type": "integer"
+        },
+        "cursor": {
+          "description": "Pagination cursor from a previous response.",
+          "type": "string"
+        },
+        "media_type": {
+          "description": "Restrict to one media type: IMAGE, VIDEO or GIF.",
+          "type": "string"
+        },
+        "q": {
+          "description": "Search query matching against name, title, file_name and description.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "list_media_library",
+    "write": false
+  },
+  {
+    "description": "Register an existing media key as a named item in the account's media library. Use list_media_library to see media already registered to the account.",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "description": {
+          "description": "Video description, shown under the video. Videos only.",
+          "type": "string"
+        },
+        "file_name": {
+          "description": "Media file name (1-255 characters).",
+          "type": "string"
+        },
+        "media_key": {
+          "description": "Media key of an existing media asset (e.g. 13_875943225764098048). Required by the legacy API.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Media asset name, shown in campaign setup UIs (1-100 characters).",
+          "type": "string"
+        },
+        "poster_media_key": {
+          "description": "Media key of an uploaded image to use as the video poster frame. Videos only.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Video title, shown on the video itself. Videos only.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "create_media_library_item",
+    "write": true
+  },
+  {
+    "description": "Delete a media library object from an ads account",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "media_key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "media_key"
+      ],
+      "type": "object"
+    },
+    "name": "delete_media_library_item",
+    "write": true
+  },
+  {
+    "description": "Get a single media library object by media key",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "media_key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "media_key"
+      ],
+      "type": "object"
+    },
+    "name": "get_media_library_item",
+    "write": false
+  },
+  {
+    "description": "Update a media library object's metadata (e.g. name, title, description)",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "description": {
+          "description": "Video description, shown under the video. Videos only.",
+          "type": "string"
+        },
+        "file_name": {
+          "description": "Media file name (1-255 characters).",
+          "type": "string"
+        },
+        "media_key": {
+          "type": "string"
+        },
+        "name": {
+          "description": "Media asset name, shown in campaign setup UIs (1-100 characters).",
+          "type": "string"
+        },
+        "poster_media_key": {
+          "description": "Media key of an uploaded image to use as the video poster frame. Videos only.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Video title, shown on the video itself. Videos only.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "media_key"
+      ],
+      "type": "object"
+    },
+    "name": "update_media_library_item",
+    "write": true
+  },
+  {
+    "description": "Get a single promoted post by ID",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "promoted_tweet_id": {
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include the promoted post even if soft-deleted (default false).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "promoted_tweet_id"
+      ],
+      "type": "object"
+    },
+    "name": "get_promoted_post",
+    "write": false
+  },
+  {
+    "description": "Get a single targeting criterion by ID",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "lang": {
+          "description": "BCP-47 language code; adds a localized_name response attribute for localizable criteria.",
+          "type": "string"
+        },
+        "targeting_criterion_id": {
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include the criterion even if soft-deleted (default false).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "targeting_criterion_id"
+      ],
+      "type": "object"
+    },
+    "name": "get_targeting_criterion",
+    "write": false
+  },
+  {
+    "description": "Get rendered HTML previews for published or scheduled posts",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "tweet_ids": {
+          "description": "Comma-separated post IDs (or scheduled post IDs, per tweet_type) to preview (max 200).",
+          "type": "string"
+        },
+        "tweet_type": {
+          "description": "Type of the IDs in tweet_ids.",
+          "enum": [
+            "PUBLISHED",
+            "DRAFT",
+            "SCHEDULED"
+          ],
+          "type": "string"
+        },
+        "user_id": {
+          "description": "Promotable user the posts belong to (defaults to the account's own user); needed when previewing ...",
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "tweet_ids",
+        "tweet_type"
+      ],
+      "type": "object"
+    },
+    "name": "list_post_previews",
+    "write": false
+  },
+  {
+    "description": "Create a website conversion event tag (pixel); the returned id can be set as a line item's primary_web_event_tag",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "click_window": {
+          "description": "Post-click attribution window in days: 1, 7, 14, 30, 60 or 90. Required by the legacy API.",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Conversion event name, shown in campaign setup UIs. Required by the legacy API.",
+          "type": "string"
+        },
+        "retargeting_enabled": {
+          "description": "Whether users who trigger this tag are collected for retargeting. Required by the legacy API.",
+          "type": "boolean"
+        },
+        "type": {
+          "description": "Conversion type: SITE_VISIT, PURCHASE, DOWNLOAD, SIGN_UP or CUSTOM. Required by the legacy API.",
+          "type": "string"
+        },
+        "view_through_window": {
+          "description": "Post-view window in days: 0, 1, 7, 14, 30, 60 or 90; max click_window. Required by the legacy API.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "account_id"
+      ],
+      "type": "object"
+    },
+    "name": "create_web_event_tag",
+    "write": true
+  },
+  {
+    "description": "Delete a website conversion event tag",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "web_event_tag_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "web_event_tag_id"
+      ],
+      "type": "object"
+    },
+    "name": "delete_web_event_tag",
+    "write": true
+  },
+  {
+    "description": "Get a single website conversion event tag by ID",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "web_event_tag_id": {
+          "type": "string"
+        },
+        "with_deleted": {
+          "description": "Include the tag even if soft-deleted (default false).",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "account_id",
+        "web_event_tag_id"
+      ],
+      "type": "object"
+    },
+    "name": "get_web_event_tag",
+    "write": false
+  },
+  {
+    "description": "Update a website conversion event tag",
+    "inputSchema": {
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "click_window": {
+          "description": "Post-click attribution window in days: 1, 7, 14, 30, 60 or 90.",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Conversion event name, shown in campaign setup UIs.",
+          "type": "string"
+        },
+        "retargeting_enabled": {
+          "description": "Whether users who trigger this tag are collected for retargeting.",
+          "type": "boolean"
+        },
+        "type": {
+          "description": "Conversion type.",
+          "enum": [
+            "SITE_VISIT",
+            "PURCHASE",
+            "DOWNLOAD",
+            "SIGN_UP",
+            "CUSTOM"
+          ],
+          "type": "string"
+        },
+        "view_through_window": {
+          "description": "Post-view window in days: 0, 1, 7, 14, 30, 60 or 90; max click_window.",
+          "type": "integer"
+        },
+        "web_event_tag_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "account_id",
+        "web_event_tag_id"
+      ],
+      "type": "object"
+    },
+    "name": "update_web_event_tag",
+    "write": true
+  }
+]
